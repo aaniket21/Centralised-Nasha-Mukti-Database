@@ -2,82 +2,174 @@
 
 ## Overview
 
-Nasha Mukti Kendra is a web-based dashboard designed to manage and monitor de-addiction centers and beneficiaries across India. It provides a centralized platform for tracking key statistics, visualizing data, and managing center/beneficiary information effectively.
+Nasha Mukti Kendra is a comprehensive web-based management system designed to track and manage de-addiction centers and beneficiaries across India. The system provides a centralized platform for monitoring rehabilitation centers, managing beneficiary records, and generating statistical insights to support the Nasha Mukti initiative.
 
-The platform aims to support the Nasha Mukti initiative by offering data-driven insights, enhancing accountability, and facilitating informed decision-making for a substance-free nation.
+## Features
 
-## Key Features
+- **Dashboard:** Real-time statistics and visualizations
+  - Total centers count
+  - Active beneficiaries
+  - Success rate tracking
+  - State-wise distribution
+  - Addiction types distribution
+  - Monthly admissions trends
 
-*   **Dashboard:** Displays real-time statistics (Total Centers, Active Beneficiaries, Success Rate) and data visualizations (State Distribution, Addiction Types, Monthly Admissions).
-*   **Center Management:** Allows adding new de-addiction centers with details like name, state, capacity, etc.
-*   **Beneficiary Management:** Enables adding new beneficiaries, associating them with centers, and tracking their status (Active, Recovered, Discontinued), age, addiction type, and admission date.
-*   **Records Page:** Provides a comprehensive, filterable, and searchable table view of all beneficiary records.
-*   **Statistics Page:** Offers more detailed statistical analysis and charts (potentially more advanced than the dashboard).
-*   **About Page:** Information about the Nasha Mukti initiative, mission, vision, and contact details.
-*   **Responsive Design:** Adapts to various screen sizes (desktops, tablets, mobiles).
-*   **Dark/Light Theme:** Supports user preference for light or dark mode interface.
-*   **Data Visualization:** Utilizes Chart.js for interactive charts.
-*   **Animations:** Subtle animations using AOS (Animate On Scroll) for enhanced user experience.
+- **Center Management:**
+  - Add new rehabilitation centers
+  - Track center capacity and occupancy
+  - Manage center details (contact, location, etc.)
+
+- **Beneficiary Management:**
+  - Register new beneficiaries
+  - Track admission dates
+  - Monitor recovery status
+  - Record interventions and outcomes
+
+- **Records & Statistics:**
+  - Comprehensive beneficiary records
+  - Detailed statistical analysis
+  - Interactive data visualizations
+  - Filterable and searchable data
+
+## Project Structure
+
+```
+nashamukti/
+├── assets/
+│   └── images/
+├── config/
+│   └── db.php
+├── index.php
+├── about.php
+├── records.php
+├── statistics.php
+├── add_center.php
+├── add_beneficiary.php
+├── setup_db.php
+├── update_stats.php
+└── README.md
+```
 
 ## Technology Stack
 
-*   **Frontend:** HTML, Tailwind CSS, JavaScript, Chart.js, AOS, Font Awesome
-*   **Backend:** PHP
-*   **Database:** MySQL (or compatible, connection configured via `config/db.php`)
-*   **Web Server:** Apache/Nginx (or any server that runs PHP)
+- **Frontend:**
+  - HTML5
+  - Tailwind CSS (via CDN)
+  - JavaScript
+  - Chart.js for data visualization
 
-## Setup and Installation
+- **Backend:**
+  - PHP
+  - MySQL/MariaDB
 
-1.  **Prerequisites:**
-    *   A web server (like Apache, Nginx) with PHP support.
-    *   A MySQL database server.
-    *   A web browser.
+## Prerequisites
 
-2.  **Clone the Repository (if applicable):**
-    ```bash
-    git clone <repository-url>
-    cd nasha-mukti-kendra
-    ```
-    Or download the project files and place them in your web server's document root (e.g., `htdocs` for XAMPP, `www` for WAMP/MAMP).
+- PHP 7.4 or higher
+- MySQL 5.7 or higher
+- Web server (Apache/Nginx)
+- Modern web browser
 
-3.  **Database Setup:**
-    *   Create a new database (e.g., `nasha_mukti`).
-    *   Import the provided `.sql` database schema file (if available) or manually create the necessary tables (`centers`, `beneficiaries`, `addiction_types`, `monthly_admissions`, etc.).
-    *   Update the database connection details in `config/db.php`:
-        ```php
-        <?php
-        $servername = "localhost"; // Your database host
-        $username = "root"; // Your database username
-        $password = ""; // Your database password
-        $dbname = "nasha_mukti"; // Your database name
+## Installation
 
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
+1. **Set up your web server:**
+   - Install XAMPP, WAMP, or MAMP
+   - Place the project files in your web server's document root
+   - For XAMPP: `C:\xampp\htdocs\nashamukti\`
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-        ?>
-        ```
+2. **Database Setup:**
+   - Create a new MySQL database named `nasha_mukti1_db`
+   - The database tables will be automatically created when you first access the application
+   - Run `setup_db.php` to initialize sample data
 
-4.  **File Structure:** Ensure the directory structure is maintained, especially the `assets` (for CSS/JS/Images), `config`, and `includes` folders.
+3. **Configuration:**
+   - The database connection is configured in `config/db.php`
+   - Default credentials:
+     - Host: localhost
+     - Username: root
+     - Password: (empty)
+     - Database: nasha_mukti1_db
 
-5.  **Access the Application:** Open your web browser and navigate to the project's URL (e.g., `http://localhost/nashamukti/`).
+## Database Schema
+
+The system uses the following tables:
+
+1. **centers:**
+   - id (Primary Key)
+   - name
+   - address
+   - state
+   - city
+   - contact_person
+   - phone
+   - email
+   - capacity
+   - created_at
+
+2. **beneficiaries:**
+   - id (Primary Key)
+   - center_id (Foreign Key)
+   - name
+   - age
+   - gender
+   - address
+   - phone
+   - addiction_type
+   - admission_date
+   - status
+   - created_at
+
+3. **interventions:**
+   - id (Primary Key)
+   - beneficiary_id (Foreign Key)
+   - intervention_type
+   - description
+   - date
+   - outcome
+   - created_at
+
+4. **addiction_types:**
+   - id (Primary Key)
+   - name
+   - count
+
+5. **monthly_admissions:**
+   - id (Primary Key)
+   - month
+   - year
+   - count
+   - created_at
 
 ## Usage
 
-*   **Index (`index.php`):** Main dashboard view.
-*   **Add Center (`add_center.php`):** Form to add new centers.
-*   **Add Beneficiary (`add_beneficiary.php`):** Form to add new beneficiaries.
-*   **Records (`records.php`):** View and filter beneficiary data.
-*   **Statistics (`statistics.php`):** View detailed statistics.
-*   **About (`about.php`):** Learn more about the initiative.
+1. **Initial Setup:**
+   - Access `setup_db.php` to initialize the database with sample data
+   - This will create necessary tables and insert initial data
 
-## Contributing
+2. **Adding Centers:**
+   - Navigate to the Add Center page
+   - Fill in center details
+   - Submit the form to register a new center
 
-Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
+3. **Managing Beneficiaries:**
+   - Use the Add Beneficiary page to register new beneficiaries
+   - Select the appropriate center
+   - Enter beneficiary details and admission information
+
+4. **Viewing Records:**
+   - Access the Records page to view all beneficiary entries
+   - Use filters to search specific records
+   - View detailed statistics on the Statistics page
+
+## Maintenance
+
+- Regular database backups are recommended
+- Monitor the `update_stats.php` script for statistical updates
+- Keep the PHP and MySQL versions up to date
+
+## Support
+
+For technical support or queries, please contact the development team or raise an issue in the repository.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details (Optional: Add a LICENSE file if desired). 
+This project is licensed under the MIT License. 
