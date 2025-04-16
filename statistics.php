@@ -38,18 +38,16 @@ while($row = $result->fetch_assoc()) {
     $addiction_counts[] = $row['count'];
 }
 
-// Get monthly trends (last 12 months)
-$sql = "SELECT DATE_FORMAT(admission_date, '%Y-%m') as month, COUNT(*) as count 
-        FROM beneficiaries 
-        WHERE admission_date >= DATE_SUB(CURRENT_DATE, INTERVAL 12 MONTH)
-        GROUP BY month 
-        ORDER BY month";
+// Get intervention type distribution
+$sql = "SELECT intervention_type, COUNT(*) as count FROM interventions GROUP BY intervention_type ORDER BY count DESC";
 $result = $conn->query($sql);
-$monthly_labels = [];
-$monthly_counts = [];
+$intervention_type_labels = [];
+$intervention_type_counts = [];
 while($row = $result->fetch_assoc()) {
-    $monthly_labels[] = date('M Y', strtotime($row['month'].'-01'));
-    $monthly_counts[] = $row['count'];
+    if (!empty($row['intervention_type'])) { // Ensure type is not empty
+        $intervention_type_labels[] = $row['intervention_type'];
+        $intervention_type_counts[] = $row['count'];
+    } 
 }
 
 // Get gender distribution
@@ -231,10 +229,10 @@ while($row = $result->fetch_assoc()) {
 
             <!-- Charts Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Monthly Trends -->
+                <!-- Changed: Intervention Types Distribution (was Monthly Trends) -->
                 <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-semibold mb-4">Monthly Admission Trends</h3>
-                    <canvas id="trendChart"></canvas>
+                    <h3 class="text-lg font-semibold mb-4">Intervention Types Distribution</h3>
+                    <canvas id="interventionTypeChart"></canvas>
                 </div>
 
                 <!-- Addiction Types -->
@@ -316,162 +314,154 @@ while($row = $result->fetch_assoc()) {
             menu.classList.toggle('hidden');
         }
 
-        // Monthly Trends Chart
-        new Chart(document.getElementById('trendChart'), {
-            type: 'line',
-            data: {
-                labels: <?php echo json_encode($monthly_labels); ?>,
-                datasets: [{
-                    label: 'New Admissions',
-                    data: <?php echo json_encode($monthly_counts); ?>,
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Addiction Types Chart
+            const addictionCtx = document.getElementById('addictionChart').getContext('2d');
+            new Chart(addictionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: <?php echo json_encode($addiction_labels); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode($addiction_counts); ?>,
+                        backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444']
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
                         }
                     }
                 }
-            }
-        });
+            });
 
-        // Addiction Types Chart
-        new Chart(document.getElementById('addictionChart'), {
-            type: 'doughnut',
-            data: {
-                labels: <?php echo json_encode($addiction_labels); ?>,
-                datasets: [{
-                    data: <?php echo json_encode($addiction_counts); ?>,
-                    backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444']
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    }
-                }
-            }
-        });
-
-        // State Distribution Chart
-        new Chart(document.getElementById('stateChart'), {
-            type: 'bar',
-            data: {
-                labels: <?php echo json_encode($state_labels); ?>,
-                datasets: [{
-                    label: 'Number of Centers',
-                    data: <?php echo json_encode($state_counts); ?>,
-                    backgroundColor: '#3b82f6'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
+            // Intervention Types Chart (Doughnut)
+            const interventionTypeCtx = document.getElementById('interventionTypeChart').getContext('2d');
+            new Chart(interventionTypeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: <?php echo json_encode($intervention_type_labels); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode($intervention_type_counts); ?>,
+                        backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#64748b'] // Add more colors if needed
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
                         }
                     }
                 }
-            }
-        });
+            });
 
-        // Gender Distribution Chart
-        new Chart(document.getElementById('genderChart'), {
-            type: 'pie',
-            data: {
-                labels: <?php echo json_encode($gender_labels); ?>,
-                datasets: [{
-                    data: <?php echo json_encode($gender_counts); ?>,
-                    backgroundColor: ['#3b82f6', '#f472b6', '#8b5cf6']
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    }
-                }
-            }
-        });
-
-        // Age Distribution Chart
-        new Chart(document.getElementById('ageChart'), {
-            type: 'bar',
-            data: {
-                labels: <?php echo json_encode($age_labels); ?>,
-                datasets: [{
-                    label: 'Number of Beneficiaries',
-                    data: <?php echo json_encode($age_counts); ?>,
-                    backgroundColor: '#10b981'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
+            // State Distribution Chart
+            new Chart(document.getElementById('stateChart'), {
+                type: 'bar',
+                data: {
+                    labels: <?php echo json_encode($state_labels); ?>,
+                    datasets: [{
+                        label: 'Number of Centers',
+                        data: <?php echo json_encode($state_counts); ?>,
+                        backgroundColor: '#3b82f6'
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
 
-        // Center Capacity Chart
-        new Chart(document.getElementById('capacityChart'), {
-            type: 'bar',
-            data: {
-                labels: <?php echo json_encode($center_labels); ?>,
-                datasets: [{
-                    label: 'Capacity',
-                    data: <?php echo json_encode($center_capacity); ?>,
-                    backgroundColor: '#3b82f6'
-                }, {
-                    label: 'Current Occupancy',
-                    data: <?php echo json_encode($center_occupancy); ?>,
-                    backgroundColor: '#10b981'
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
+            // Gender Distribution Chart
+            new Chart(document.getElementById('genderChart'), {
+                type: 'pie',
+                data: {
+                    labels: <?php echo json_encode($gender_labels); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode($gender_counts); ?>,
+                        backgroundColor: ['#3b82f6', '#f472b6', '#8b5cf6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
                         }
                     }
                 }
-            }
+            });
+
+            // Age Distribution Chart
+            new Chart(document.getElementById('ageChart'), {
+                type: 'bar',
+                data: {
+                    labels: <?php echo json_encode($age_labels); ?>,
+                    datasets: [{
+                        label: 'Number of Beneficiaries',
+                        data: <?php echo json_encode($age_counts); ?>,
+                        backgroundColor: '#10b981'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Center Capacity Chart
+            new Chart(document.getElementById('capacityChart'), {
+                type: 'bar',
+                data: {
+                    labels: <?php echo json_encode($center_labels); ?>,
+                    datasets: [{
+                        label: 'Capacity',
+                        data: <?php echo json_encode($center_capacity); ?>,
+                        backgroundColor: '#3b82f6'
+                    }, {
+                        label: 'Current Occupancy',
+                        data: <?php echo json_encode($center_occupancy); ?>,
+                        backgroundColor: '#10b981'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
         });
     </script>
 </body>
