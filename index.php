@@ -648,7 +648,7 @@ $recent_admissions = $conn->query($sql);
             <div class="lg:col-span-2 bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-xl font-semibold text-dark">Recent Admissions</h2>
-                    <button class="text-primary text-sm font-medium hover:text-primary/80">View All</button>
+                    <button class="text-primary text-sm font-medium hover:text-primary/80"><a href="records.php">View All</a></button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -705,7 +705,7 @@ $recent_admissions = $conn->query($sql);
             <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-xl font-semibold text-dark">Monthly Admissions</h2>
-                    <button class="text-primary text-sm font-medium hover:text-primary/80">View Report</button>
+                    <button class="text-primary text-sm font-medium hover:text-primary/80"><a href="reports.php">View Report</a></button>
                 </div>
                 <div class="h-80">
                     <canvas id="monthlyAdmissionsChart"></canvas>
