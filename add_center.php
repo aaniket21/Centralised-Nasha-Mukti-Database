@@ -322,7 +322,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2023 Nasha Mukti Kendra. All rights reserved.</p>
+                <p>&copy; 2025 Nasha Mukti Kendra. All rights reserved.</p>
             </div>
         </div>
     </footer>
