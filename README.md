@@ -12,7 +12,7 @@ This project was developed by:
 1. Aniket
 2. Satyam Kumar
 3. Shivam Rawat
-4. Aranav Singh
+4. Arnav Singh
 
 ## Features
 
