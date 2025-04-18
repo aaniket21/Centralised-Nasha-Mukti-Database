@@ -4,6 +4,16 @@
 
 Nasha Mukti Kendra is a comprehensive web-based management system designed to track and manage de-addiction centers and beneficiaries across India. The system provides a centralized platform for monitoring rehabilitation centers, managing beneficiary records, and generating statistical insights to support the Nasha Mukti initiative.
 
+**Live Demo:** [http://nashamukti.ct.ws/](http://nashamukti.ct.ws/)
+
+## Team
+
+This project was developed by:
+1. Aniket
+2. Satyam Kumar
+3. Shivam Rawat
+4. Aranav Singh
+
 ## Features
 
 - **Dashboard:** Real-time statistics and visualizations
@@ -13,6 +23,7 @@ Nasha Mukti Kendra is a comprehensive web-based management system designed to tr
   - State-wise distribution
   - Addiction types distribution
   - Monthly admissions trends
+  - Dark mode support
 
 - **Center Management:**
   - Add new rehabilitation centers
@@ -30,6 +41,12 @@ Nasha Mukti Kendra is a comprehensive web-based management system designed to tr
   - Detailed statistical analysis
   - Interactive data visualizations
   - Filterable and searchable data
+  - Advanced filtering by state, addiction type, and status
+
+- **User Authentication:**
+  - Role-based access control (Admin and Client roles)
+  - Secure login and registration
+  - Session management
 
 ## Project Structure
 
@@ -38,13 +55,19 @@ nashamukti/
 ├── assets/
 │   └── images/
 ├── config/
-│   └── db.php
+│   ├── db.php
+│   └── auth.php
+├── includes/
+│   └── header.php
 ├── index.php
 ├── about.php
 ├── records.php
 ├── statistics.php
 ├── add_center.php
 ├── add_beneficiary.php
+├── login.php
+├── register.php
+├── logout.php
 ├── setup_db.php
 ├── update_stats.php
 └── README.md
@@ -57,10 +80,13 @@ nashamukti/
   - Tailwind CSS (via CDN)
   - JavaScript
   - Chart.js for data visualization
+  - Font Awesome for icons
+  - AOS (Animate On Scroll) for animations
 
 - **Backend:**
   - PHP
   - MySQL/MariaDB
+  - Session-based authentication
 
 ## Prerequisites
 
@@ -139,26 +165,54 @@ The system uses the following tables:
    - count
    - created_at
 
+6. **users:**
+   - id (Primary Key)
+   - username
+   - password
+   - email
+   - role (admin/client)
+   - created_at
+
 ## Usage
 
 1. **Initial Setup:**
    - Access `setup_db.php` to initialize the database with sample data
    - This will create necessary tables and insert initial data
 
-2. **Adding Centers:**
-   - Navigate to the Add Center page
+2. **Authentication:**
+   - Default admin credentials:
+     - Username: admin
+     - Password: admin123
+   - Users can register for new accounts or log in with existing credentials
+
+3. **Adding Centers:**
+   - Navigate to the Add Center page (admin only)
    - Fill in center details
    - Submit the form to register a new center
 
-3. **Managing Beneficiaries:**
+4. **Managing Beneficiaries:**
    - Use the Add Beneficiary page to register new beneficiaries
    - Select the appropriate center
    - Enter beneficiary details and admission information
 
-4. **Viewing Records:**
-   - Access the Records page to view all beneficiary entries
+5. **Viewing Records:**
+   - Access the Records page to view all beneficiary entries (admin only)
    - Use filters to search specific records
    - View detailed statistics on the Statistics page
+
+6. **Theme Support:**
+   - The system includes a dark mode toggle for comfortable viewing in different lighting conditions
+   - Theme preference is saved in local storage
+
+## Deployment
+
+The website is currently hosted at [http://nashamukti.ct.ws/](http://nashamukti.ct.ws/).
+
+To deploy on your own server:
+1. Upload all files to your web server
+2. Create a MySQL database and update the connection details in `config/db.php`
+3. Run `setup_db.php` to initialize the database
+4. Access the website through your domain
 
 ## Maintenance
 
