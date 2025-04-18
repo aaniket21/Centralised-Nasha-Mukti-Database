@@ -1,5 +1,9 @@
 <?php
 require_once 'config/db.php';
+require_once 'config/auth.php';
+
+// Check if user is logged in
+requireLogin();
 
 // Fetch statistics
 $stats = [
@@ -338,377 +342,330 @@ $recent_admissions = $conn->query($sql);
     </script>
 </head>
 <body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg shadow-sm">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <a href="index.php" class="text-2xl font-bold gradient-text">Nasha Mukti</a>
+    <?php include 'includes/header.php'; ?>
+
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <div class="hero-section min-h-screen pt-16">
+            <div class="max-w-7xl mx-auto px-4 py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pb-32">
+                    <div data-aos="fade-right" class="space-y-8">
+                        <h1 class="text-5xl font-bold leading-tight hero-text">Break Free from <span class="text-white dark:text-blue-400">Addiction</span></h1>
+                        <p class="text-xl hero-description">Empowering lives through comprehensive rehabilitation and support. Join us in building a healthier, addiction-free society.</p>
+                        <!-- <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                            <a href="add_beneficiary.php" onclick="handleButtonClick(this, event)" class="hero-button-primary px-8 py-3 rounded-full font-medium shadow-xl hover:shadow-2xl text-center inline-flex items-center justify-center group">
+                                <i class="fas fa-user-plus mr-2 transform group-hover:scale-110 transition-transform"></i>
+                                <span>Add Beneficiary</span>
+                            </a>
+                            <a href="statistics.php" onclick="handleButtonClick(this, event)" class="hero-button-secondary px-8 py-3 rounded-full font-medium text-center inline-flex items-center justify-center group">
+                                <i class="fas fa-chart-bar mr-2 transform group-hover:scale-110 transition-transform"></i>
+                                <span>View Statistics</span>
+                            </a>
+                        </div> -->
                     </div>
-                    <div class="hidden md:block ml-10">
-                        <div class="flex items-baseline space-x-6">
-                            <a href="index.php" class="text-primary border-b-2 border-primary px-3 py-2 text-sm font-medium">Dashboard</a>
-                            <a href="add_center.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Add Center</a>
-                            <a href="add_beneficiary.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Add Beneficiary</a>
-                            <a href="about.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">About</a>
-                            <a href="records.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Records</a>
-                            <a href="statistics.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Statistics</a>
+                    <div data-aos="fade-left" class="hidden lg:block relative z-10">
+                        <img src="assets/images/hero.png" alt="Hero Image" class="w-full max-w-md mx-auto animate-float mb-12">
+                    </div>
+                </div>
+            </div>
+            <!-- Wave Shape -->
+            <div class="absolute bottom-0 left-0 right-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full">
+                    <path fill="currentColor" class="text-gray-50 dark:text-gray-900" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="max-w-7xl mx-auto px-4 -mt-32 relative z-10 mb-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="add_center.php" data-aos="fade-up" data-aos-delay="0" class="glass-card rounded-2xl shadow-xl p-6 transform hover:scale-105 transition-all cursor-pointer">
+                    <div class="flex items-center">
+                        <div class="p-4 rounded-full bg-blue-100/50 text-primary">
+                            <i class="fas fa-hospital text-3xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-gray-500 font-medium">Total Centers</p>
+                            <div class="flex items-baseline">
+                                <h3 class="text-3xl font-bold text-gray-800"><?php echo $stats['total_centers']; ?></h3>
+                                <span class="ml-2 text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 12%</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <button onclick="toggleTheme()" class="theme-toggle">
-                        <i id="theme-toggle-icon" class="fas fa-moon w-6 h-6 text-gray-600 dark:text-gray-300"></i>
-                    </button>
-                    <a href="add_center.php" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/30">
-                        <i class="fas fa-plus-circle mr-2"></i>Add Center
-                    </a>
-                </div>
-                <div class="md:hidden">
-                    <button type="button" class="text-gray-600 hover:text-primary" onclick="toggleMobileMenu()">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Mobile menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="index.php" class="block px-3 py-2 text-base font-medium text-primary bg-gray-50 rounded-md">Dashboard</a>
-                <a href="add_center.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Add Center</a>
-                <a href="add_beneficiary.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Add Beneficiary</a>
-                <a href="about.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">About</a>
-                <a href="records.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Records</a>
-                <a href="statistics.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Statistics</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <div class="hero-section min-h-screen pt-16">
-        <div class="max-w-7xl mx-auto px-4 py-20">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pb-32">
-                <div data-aos="fade-right" class="space-y-8">
-                    <h1 class="text-5xl font-bold leading-tight hero-text">Break Free from <span class="text-white dark:text-blue-400">Addiction</span></h1>
-                    <p class="text-xl hero-description">Empowering lives through comprehensive rehabilitation and support. Join us in building a healthier, addiction-free society.</p>
-                    <!-- <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="add_beneficiary.php" onclick="handleButtonClick(this, event)" class="hero-button-primary px-8 py-3 rounded-full font-medium shadow-xl hover:shadow-2xl text-center inline-flex items-center justify-center group">
-                            <i class="fas fa-user-plus mr-2 transform group-hover:scale-110 transition-transform"></i>
-                            <span>Add Beneficiary</span>
-                        </a>
-                        <a href="statistics.php" onclick="handleButtonClick(this, event)" class="hero-button-secondary px-8 py-3 rounded-full font-medium text-center inline-flex items-center justify-center group">
-                            <i class="fas fa-chart-bar mr-2 transform group-hover:scale-110 transition-transform"></i>
-                            <span>View Statistics</span>
-                        </a>
-                    </div> -->
-                </div>
-                <div data-aos="fade-left" class="hidden lg:block relative z-10">
-                    <img src="assets/images/hero.png" alt="Hero Image" class="w-full max-w-md mx-auto animate-float mb-12">
-                </div>
-            </div>
-        </div>
-        <!-- Wave Shape -->
-        <div class="absolute bottom-0 left-0 right-0">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full">
-                <path fill="currentColor" class="text-gray-50 dark:text-gray-900" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-            </svg>
-        </div>
-    </div>
-
-    <!-- Statistics Cards -->
-    <div class="max-w-7xl mx-auto px-4 -mt-32 relative z-10 mb-10">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a href="add_center.php" data-aos="fade-up" data-aos-delay="0" class="glass-card rounded-2xl shadow-xl p-6 transform hover:scale-105 transition-all cursor-pointer">
-                <div class="flex items-center">
-                    <div class="p-4 rounded-full bg-blue-100/50 text-primary">
-                        <i class="fas fa-hospital text-3xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-500 font-medium">Total Centers</p>
-                        <div class="flex items-baseline">
-                            <h3 class="text-3xl font-bold text-gray-800"><?php echo $stats['total_centers']; ?></h3>
-                            <span class="ml-2 text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 12%</span>
+                </a>
+                <a href="add_beneficiary.php" data-aos="fade-up" data-aos-delay="100" class="glass-card rounded-2xl shadow-xl p-6 transform hover:scale-105 transition-all cursor-pointer">
+                    <div class="flex items-center">
+                        <div class="p-4 rounded-full bg-green-100/50 text-green-600">
+                            <i class="fas fa-users text-3xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-gray-500 font-medium">Active Beneficiaries</p>
+                            <div class="flex items-baseline">
+                                <h3 class="text-3xl font-bold text-gray-800"><?php echo $stats['active_beneficiaries']; ?></h3>
+                                <span class="ml-2 text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 8%</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-            <a href="add_beneficiary.php" data-aos="fade-up" data-aos-delay="100" class="glass-card rounded-2xl shadow-xl p-6 transform hover:scale-105 transition-all cursor-pointer">
-                <div class="flex items-center">
-                    <div class="p-4 rounded-full bg-green-100/50 text-green-600">
-                        <i class="fas fa-users text-3xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-500 font-medium">Active Beneficiaries</p>
-                        <div class="flex items-baseline">
-                            <h3 class="text-3xl font-bold text-gray-800"><?php echo $stats['active_beneficiaries']; ?></h3>
-                            <span class="ml-2 text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 8%</span>
+                </a>
+                <a href="statistics.php" data-aos="fade-up" data-aos-delay="200" class="glass-card rounded-2xl shadow-xl p-6 transform hover:scale-105 transition-all cursor-pointer">
+                    <div class="flex items-center">
+                        <div class="p-4 rounded-full bg-purple-100/50 text-purple-600">
+                            <i class="fas fa-chart-line text-3xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-gray-500 font-medium">Success Rate</p>
+                            <div class="flex items-baseline">
+                                <h3 class="text-3xl font-bold text-gray-800"><?php echo $stats['success_rate']; ?>%</h3>
+                                <span class="ml-2 text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 5%</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-            <a href="statistics.php" data-aos="fade-up" data-aos-delay="200" class="glass-card rounded-2xl shadow-xl p-6 transform hover:scale-105 transition-all cursor-pointer">
-                <div class="flex items-center">
-                    <div class="p-4 rounded-full bg-purple-100/50 text-purple-600">
-                        <i class="fas fa-chart-line text-3xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-500 font-medium">Success Rate</p>
-                        <div class="flex items-baseline">
-                            <h3 class="text-3xl font-bold text-gray-800"><?php echo $stats['success_rate']; ?>%</h3>
-                            <span class="ml-2 text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 5%</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
-    </div>
 
-    <div class="bg-white rounded-xl shadow-md p-8 my-8" data-aos="fade-up">
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-dark mb-2">Our Commitment to a Healthier India</h2>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                Nasha Mukti Kendra is dedicated to building a substance-free nation by providing comprehensive support, rehabilitation, and awareness programs. We track progress, analyze trends, and empower communities.
-            </p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div class="p-4">
-                <div class="text-primary mb-4 text-4xl">
-                    <i class="fas fa-chart-pie"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Data-Driven Insights</h3>
-                <p class="text-gray-600">
-                    Leveraging real-time data to understand addiction trends and measure the effectiveness of rehabilitation efforts.
-                </p>
-            </div>
-            <div class="p-4">
-                <div class="text-primary mb-4 text-4xl">
-                    <i class="fas fa-network-wired"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Nationwide Network</h3>
-                <p class="text-gray-600">
-                    Connecting and monitoring de-addiction centers across all states to ensure standardized care and support.
-                </p>
-            </div>
-            <div class="p-4">
-                <div class="text-primary mb-4 text-4xl">
-                    <i class="fas fa-hands-helping"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Empowering Recovery</h3>
-                <p class="text-gray-600">
-                    Focusing on beneficiary success through accessible resources, progress tracking, and community integration.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- How We Help & Our Impact Section -->
-    <div class="bg-gray-100 py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12" data-aos="fade-up">
-                <h2 class="text-3xl font-bold text-dark mb-3">Driving Change: How This Platform Helps</h2>
+        <div class="bg-white rounded-xl shadow-md p-8 my-8" data-aos="fade-up">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-dark mb-2">Our Commitment to a Healthier India</h2>
                 <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    This centralized dashboard is more than just data; it's a strategic tool designed to enhance the effectiveness of the Nasha Mukti initiative nationwide.
+                    Nasha Mukti Kendra is dedicated to building a substance-free nation by providing comprehensive support, rehabilitation, and awareness programs. We track progress, analyze trends, and empower communities.
                 </p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Feature 1: What it Does -->
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="100">
-                    <div class="text-secondary mb-4 text-3xl">
-                        <i class="fas fa-tasks"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-4">
+                    <div class="text-primary mb-4 text-4xl">
+                        <i class="fas fa-chart-pie"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Centralized Monitoring</h3>
+                    <h3 class="text-xl font-semibold mb-2">Data-Driven Insights</h3>
                     <p class="text-gray-600">
-                        Provides a single platform to track key performance indicators, beneficiary progress, and center activities across all participating Kendras.
+                        Leveraging real-time data to understand addiction trends and measure the effectiveness of rehabilitation efforts.
                     </p>
                 </div>
-                <!-- Feature 2: How it Helps -->
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="200">
-                    <div class="text-secondary mb-4 text-3xl">
-                        <i class="fas fa-lightbulb"></i>
+                <div class="p-4">
+                    <div class="text-primary mb-4 text-4xl">
+                        <i class="fas fa-network-wired"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Informed Decision Making</h3>
+                    <h3 class="text-xl font-semibold mb-2">Nationwide Network</h3>
                     <p class="text-gray-600">
-                        Offers insights into addiction trends, program effectiveness, and resource allocation needs, enabling data-driven strategies for better outcomes.
+                        Connecting and monitoring de-addiction centers across all states to ensure standardized care and support.
                     </p>
                 </div>
-                <!-- Feature 3: Our Programs (Briefly) -->
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="300">
-                    <div class="text-secondary mb-4 text-3xl">
-                        <i class="fas fa-hand-holding-heart"></i>
+                <div class="p-4">
+                    <div class="text-primary mb-4 text-4xl">
+                        <i class="fas fa-hands-helping"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Supporting Diverse Programs</h3>
+                    <h3 class="text-xl font-semibold mb-2">Empowering Recovery</h3>
                     <p class="text-gray-600">
-                        Supports various Kendra programs including counseling, therapy, medical aid, and rehabilitation by tracking their impact and reach effectively.
-                    </p>
-                </div>
-                <!-- Feature 4: Benefits/Why Choose Us -->
-                <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="400">
-                    <div class="text-secondary mb-4 text-3xl">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Enhanced Accountability</h3>
-                    <p class="text-gray-600">
-                        Increases transparency and accountability in the de-addiction process, ensuring quality standards and effective resource utilization across the network.
+                        Focusing on beneficiary success through accessible resources, progress tracking, and community integration.
                     </p>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Why Choose Us Section -->
-    <div class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12" data-aos="fade-up">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">Why Use This Platform?</h2>
-                <p class="text-lg text-gray-600 max-w-4xl mx-auto">
-                    Nasha Mukti Kendra provides a robust, centralized system for managing and monitoring de-addiction efforts across India. Our platform offers comprehensive tools and data insights to support centers, track beneficiary progress, and inform national strategy for a substance-free future.
-                </p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center">
-                <!-- Feature 1: High Success Rate Monitoring -->
-                <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="0">
-                    <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
-                        <i class="fas fa-star text-orange-500 text-4xl"></i>
-                    </div>
-                    <h3 class="text-md font-semibold text-gray-700">Success Rate Tracking</h3>
+        <!-- How We Help & Our Impact Section -->
+        <div class="bg-gray-100 py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-dark mb-3">Driving Change: How This Platform Helps</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        This centralized dashboard is more than just data; it's a strategic tool designed to enhance the effectiveness of the Nasha Mukti initiative nationwide.
+                    </p>
                 </div>
-                <!-- Feature 2: Comprehensive Support -->
-                <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="100">
-                    <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
-                        <i class="fas fa-users-cog text-blue-600 text-4xl"></i>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Feature 1: What it Does -->
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="100">
+                        <div class="text-secondary mb-4 text-3xl">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Centralized Monitoring</h3>
+                        <p class="text-gray-600">
+                            Provides a single platform to track key performance indicators, beneficiary progress, and center activities across all participating Kendras.
+                        </p>
                     </div>
-                    <h3 class="text-md font-semibold text-gray-700">Center & Beneficiary Mgmt</h3>
-                </div>
-                <!-- Feature 3: In/Out Patient Care -->
-                <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="200">
-                    <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
-                        <i class="fas fa-procedures text-teal-500 text-4xl"></i>
+                    <!-- Feature 2: How it Helps -->
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="200">
+                        <div class="text-secondary mb-4 text-3xl">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Informed Decision Making</h3>
+                        <p class="text-gray-600">
+                            Offers insights into addiction trends, program effectiveness, and resource allocation needs, enabling data-driven strategies for better outcomes.
+                        </p>
                     </div>
-                    <h3 class="text-md font-semibold text-gray-700">Care Status Monitoring</h3>
-                </div>
-                <!-- Feature 4: Medical Checkups/Monitoring -->
-                <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="300">
-                    <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
-                        <i class="fas fa-clipboard-list text-red-500 text-4xl"></i>
+                    <!-- Feature 3: Our Programs (Briefly) -->
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="300">
+                        <div class="text-secondary mb-4 text-3xl">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Supporting Diverse Programs</h3>
+                        <p class="text-gray-600">
+                            Supports various Kendra programs including counseling, therapy, medical aid, and rehabilitation by tracking their impact and reach effectively.
+                        </p>
                     </div>
-                    <h3 class="text-md font-semibold text-gray-700">Detailed Record Keeping</h3>
-                </div>
-                <!-- Feature 5: 24x7 Support -->
-                <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
-                    <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
-                        <i class="fas fa-headset text-purple-600 text-4xl"></i>
+                    <!-- Feature 4: Benefits/Why Choose Us -->
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="400">
+                        <div class="text-secondary mb-4 text-3xl">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Enhanced Accountability</h3>
+                        <p class="text-gray-600">
+                            Increases transparency and accountability in the de-addiction process, ensuring quality standards and effective resource utilization across the network.
+                        </p>
                     </div>
-                    <h3 class="text-md font-semibold text-gray-700">Nationwide Accessibility</h3>
-                </div>
-                <!-- Feature 6: Data Integration -->
-                <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="500">
-                    <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
-                        <i class="fas fa-database text-green-600 text-4xl"></i>
-                    </div>
-                    <h3 class="text-md font-semibold text-gray-700">Centralized Data Insights</h3>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- What We Do Section -->
-    <div class="bg-white rounded-xl shadow-md p-8 my-8" data-aos="fade-up">
-
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- State Distribution Chart -->
-            <div class="lg:col-span-2 bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-dark">State-wise Center Distribution</h2>
-                    <div class="relative">
-                        <select class="appearance-none bg-gray-100 border-0 pl-3 pr-8 py-2 rounded-lg text-sm focus:ring-2 focus:ring-primary/50">
-                            <option>Last 6 Months</option>
-                            <option>Last Year</option>
-                            <option>All Time</option>
-                        </select>
-                        <i class="fas fa-chevron-down absolute right-3 top-3 text-gray-400 text-xs"></i>
+        <!-- Why Choose Us Section -->
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">Why Use This Platform?</h2>
+                    <p class="text-lg text-gray-600 max-w-4xl mx-auto">
+                        Nasha Mukti Kendra provides a robust, centralized system for managing and monitoring de-addiction efforts across India. Our platform offers comprehensive tools and data insights to support centers, track beneficiary progress, and inform national strategy for a substance-free future.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center">
+                    <!-- Feature 1: High Success Rate Monitoring -->
+                    <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="0">
+                        <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
+                            <i class="fas fa-star text-orange-500 text-4xl"></i>
+                        </div>
+                        <h3 class="text-md font-semibold text-gray-700">Success Rate Tracking</h3>
+                    </div>
+                    <!-- Feature 2: Comprehensive Support -->
+                    <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="100">
+                        <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
+                            <i class="fas fa-users-cog text-blue-600 text-4xl"></i>
+                        </div>
+                        <h3 class="text-md font-semibold text-gray-700">Center & Beneficiary Mgmt</h3>
+                    </div>
+                    <!-- Feature 3: In/Out Patient Care -->
+                    <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="200">
+                        <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
+                            <i class="fas fa-procedures text-teal-500 text-4xl"></i>
+                        </div>
+                        <h3 class="text-md font-semibold text-gray-700">Care Status Monitoring</h3>
+                    </div>
+                    <!-- Feature 4: Medical Checkups/Monitoring -->
+                    <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="300">
+                        <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
+                            <i class="fas fa-clipboard-list text-red-500 text-4xl"></i>
+                        </div>
+                        <h3 class="text-md font-semibold text-gray-700">Detailed Record Keeping</h3>
+                    </div>
+                    <!-- Feature 5: 24x7 Support -->
+                    <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                        <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
+                            <i class="fas fa-headset text-purple-600 text-4xl"></i>
+                        </div>
+                        <h3 class="text-md font-semibold text-gray-700">Nationwide Accessibility</h3>
+                    </div>
+                    <!-- Feature 6: Data Integration -->
+                    <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="500">
+                        <div class="bg-gray-100 rounded-full p-5 mb-4 w-24 h-24 flex items-center justify-center shadow-inner">
+                            <i class="fas fa-database text-green-600 text-4xl"></i>
+                        </div>
+                        <h3 class="text-md font-semibold text-gray-700">Centralized Data Insights</h3>
                     </div>
                 </div>
-                <div class="h-80">
-                    <canvas id="stateDistributionChart"></canvas>
-                </div>
             </div>
+        </div>
 
-            <!-- Addiction Types -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
-                <h2 class="text-xl font-semibold text-dark mb-6">Addiction Types</h2>
-                <div class="h-80">
-                    <canvas id="addictionTypeChart"></canvas>
+        <!-- What We Do Section -->
+        <div class="bg-white rounded-xl shadow-md p-8 my-8" data-aos="fade-up">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- State Distribution Chart -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold text-dark">State-wise Center Distribution</h2>
+                        <div class="relative">
+                            <select class="appearance-none bg-gray-100 border-0 pl-3 pr-8 py-2 rounded-lg text-sm focus:ring-2 focus:ring-primary/50">
+                                <option>Last 6 Months</option>
+                                <option>Last Year</option>
+                                <option>All Time</option>
+                            </select>
+                            <i class="fas fa-chevron-down absolute right-3 top-3 text-gray-400 text-xs"></i>
+                        </div>
+                    </div>
+                    <div class="h-80">
+                        <canvas id="stateDistributionChart"></canvas>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Recent Activities -->
-            <div class="lg:col-span-2 bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-dark">Recent Admissions</h2>
-                    <button class="text-primary text-sm font-medium hover:text-primary/80"><a href="records.php">View All</a></button>
+                <!-- Addiction Types -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
+                    <h2 class="text-xl font-semibold text-dark mb-6">Addiction Types</h2>
+                    <div class="h-80">
+                        <canvas id="addictionTypeChart"></canvas>
+                    </div>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Beneficiary</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Center</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Addiction</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <?php while ($row = $recent_admissions->fetch_assoc()): ?>
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                                            <i class="fas fa-user"></i>
+
+                <!-- Monthly Admissions -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold text-dark">Monthly Admissions</h2>
+                        <button class="text-primary text-sm font-medium hover:text-primary/80"><a href="reports.php">View Report</a></button>
+                    </div>
+                    <div class="h-80">
+                        <canvas id="monthlyAdmissionsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold text-dark">Recent Admissions</h2>
+                        <button class="text-primary text-sm font-medium hover:text-primary/80"><a href="records.php">View All</a></button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Beneficiary</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Center</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Addiction</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php while ($row = $recent_admissions->fetch_assoc()): ?>
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-dark"><?php echo htmlspecialchars($row['name']); ?></div>
+                                                <div class="text-sm text-gray-500">Age: <?php echo $row['age']; ?></div>
+                                            </div>
                                         </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-dark"><?php echo htmlspecialchars($row['name']); ?></div>
-                                            <div class="text-sm text-gray-500">Age: <?php echo $row['age']; ?></div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-dark"><?php echo htmlspecialchars($row['center_name']); ?></div>
-                                    <div class="text-sm text-gray-500"><?php echo htmlspecialchars($row['state']); ?></div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                        <?php echo htmlspecialchars($row['addiction_type']); ?>
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                        <?php echo $row['status'] == 'Active' ? 'bg-green-100 text-green-800' : 
-                                            ($row['status'] == 'Completed' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'); ?>">
-                                        <?php echo htmlspecialchars($row['status']); ?>
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <?php echo date('d M Y', strtotime($row['admission_date'])); ?>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Monthly Admissions -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 card-hover">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-dark">Monthly Admissions</h2>
-                    <button class="text-primary text-sm font-medium hover:text-primary/80"><a href="reports.php">View Report</a></button>
-                </div>
-                <div class="h-80">
-                    <canvas id="monthlyAdmissionsChart"></canvas>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-dark"><?php echo htmlspecialchars($row['center_name']); ?></div>
+                                        <div class="text-sm text-gray-500"><?php echo htmlspecialchars($row['state']); ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            <?php echo htmlspecialchars($row['addiction_type']); ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                            <?php echo $row['status'] === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
+                                            <?php echo htmlspecialchars($row['status']); ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo date('M d, Y', strtotime($row['admission_date'])); ?>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -725,20 +682,12 @@ $recent_admissions = $conn->query($sql);
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Dashboard</a></li>
+                        <li><a href="index.php" class="text-gray-400 hover:text-white transition-colors">Dashboard</a></li>
                         <li><a href="add_center.php" class="text-gray-400 hover:text-white transition-colors">Add Center</a></li>
                         <li><a href="add_beneficiary.php" class="text-gray-400 hover:text-white transition-colors">Add Beneficiary</a></li>
                         <li><a href="statistics.php" class="text-gray-400 hover:text-white transition-colors">Statistics</a></li>
                     </ul>
                 </div>
-                <!-- <div>
-                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-                    </ul>
-                </div> -->
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Contact</h3>
                     <ul class="space-y-2">
@@ -765,203 +714,197 @@ $recent_admissions = $conn->query($sql);
             menu.classList.toggle('hidden');
         }
 
-        // State Distribution Chart
-        const stateCtx = document.getElementById('stateDistributionChart').getContext('2d');
-        const stateChart = new Chart(stateCtx, {
-            type: 'bar',
-            data: {
-                labels: <?php echo json_encode($states); ?>,
-                datasets: [{
-                    label: 'Number of Centers',
-                    data: <?php echo json_encode($center_counts); ?>,
-                    backgroundColor: [
-                        'rgba(79, 70, 229, 0.7)',
-                        'rgba(16, 185, 129, 0.7)',
-                        'rgba(245, 158, 11, 0.7)',
-                        'rgba(139, 92, 246, 0.7)',
-                        'rgba(20, 184, 166, 0.7)',
-                        'rgba(244, 63, 94, 0.7)'
-                    ],
-                    borderColor: [
-                        'rgba(79, 70, 229, 1)',
-                        'rgba(16, 185, 129, 1)',
-                        'rgba(245, 158, 11, 1)',
-                        'rgba(139, 92, 246, 1)',
-                        'rgba(20, 184, 166, 1)',
-                        'rgba(244, 63, 94, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false,
-                        labels: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#1f2937';
-                            }
-                        }
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize charts
+            const stateCtx = document.getElementById('stateDistributionChart').getContext('2d');
+            const addictionCtx = document.getElementById('addictionTypeChart').getContext('2d');
+            const monthlyCtx = document.getElementById('monthlyAdmissionsChart').getContext('2d');
+
+            // State Distribution Chart
+            const stateChart = new Chart(stateCtx, {
+                type: 'bar',
+                data: {
+                    labels: <?php echo json_encode($states); ?>,
+                    datasets: [{
+                        label: 'Centers',
+                        data: <?php echo json_encode($center_counts); ?>,
+                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        barThickness: 20
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-                            }
-                        },
-                        ticks: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#1f2937';
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                            labels: {
+                                color: getThemeColor('text')
                             }
                         }
                     },
-                    x: {
-                        grid: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-                            }
-                        },
-                        ticks: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#1f2937';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // Addiction Type Chart
-        const addictionCtx = document.getElementById('addictionTypeChart').getContext('2d');
-        const addictionChart = new Chart(addictionCtx, {
-            type: 'doughnut',
-            data: {
-                labels: <?php echo json_encode($addiction_types); ?>,
-                datasets: [{
-                    data: <?php echo json_encode($addiction_counts); ?>,
-                    backgroundColor: [
-                        'rgba(79, 70, 229, 0.7)',
-                        'rgba(16, 185, 129, 0.7)',
-                        'rgba(245, 158, 11, 0.7)',
-                        'rgba(139, 92, 246, 0.7)'
-                    ],
-                    borderColor: [
-                        'rgba(79, 70, 229, 1)',
-                        'rgba(16, 185, 129, 1)',
-                        'rgba(245, 158, 11, 1)',
-                        'rgba(139, 92, 246, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#1f2937';
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: getThemeColor('grid')
                             },
-                            padding: 20
-                        }
-                    }
-                },
-                cutout: '70%'
-            }
-        });
-
-        // Monthly Admissions Chart
-        const monthlyCtx = document.getElementById('monthlyAdmissionsChart').getContext('2d');
-        const monthlyChart = new Chart(monthlyCtx, {
-            type: 'line',
-            data: {
-                labels: <?php echo json_encode($months); ?>,
-                datasets: [{
-                    label: 'Admissions',
-                    data: <?php echo json_encode($admission_counts); ?>,
-                    fill: true,
-                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                    borderColor: 'rgba(79, 70, 229, 1)',
-                    tension: 0.3,
-                    pointBackgroundColor: 'rgba(79, 70, 229, 1)',
-                    pointBorderColor: '#fff',
-                    pointHoverRadius: 6,
-                    pointHoverBorderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false,
-                        labels: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#1f2937';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        grid: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+                            ticks: {
+                                color: getThemeColor('text')
                             }
                         },
-                        ticks: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#1f2937';
-                            }
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-                            }
-                        },
-                        ticks: {
-                            color: function(context) {
-                                return document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#1f2937';
+                        x: {
+                            grid: {
+                                color: getThemeColor('grid')
+                            },
+                            ticks: {
+                                color: getThemeColor('text')
                             }
                         }
                     }
                 }
-            }
+            });
+
+            // Addiction Type Chart
+            const addictionChart = new Chart(addictionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: <?php echo json_encode($addiction_types); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode($addiction_counts); ?>,
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(139, 92, 246, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: getThemeColor('text')
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Monthly Admissions Chart
+            const monthlyChart = new Chart(monthlyCtx, {
+                type: 'line',
+                data: {
+                    labels: <?php echo json_encode($months); ?>,
+                    datasets: [{
+                        label: 'Admissions',
+                        data: <?php echo json_encode($admission_counts); ?>,
+                        fill: true,
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 6,
+                        pointHoverBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                            labels: {
+                                color: getThemeColor('text')
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: getThemeColor('grid')
+                            },
+                            ticks: {
+                                color: getThemeColor('text')
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: getThemeColor('grid')
+                            },
+                            ticks: {
+                                color: getThemeColor('text')
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Make charts available globally for theme updates
+            window.stateChart = stateChart;
+            window.addictionChart = addictionChart;
+            window.monthlyChart = monthlyChart;
         });
+
+        // Helper function to get theme-specific colors
+        function getThemeColor(type) {
+            const isDark = document.documentElement.classList.contains('dark');
+            const colors = {
+                text: isDark ? '#f3f4f6' : '#1f2937',
+                grid: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+            };
+            return colors[type];
+        }
 
         // Update chart colors when theme changes
         function updateChartColors() {
-            const isDark = document.documentElement.classList.contains('dark');
-            const textColor = isDark ? '#f3f4f6' : '#1f2937';
-            const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            const textColor = getThemeColor('text');
+            const gridColor = getThemeColor('grid');
 
             // Update State Distribution Chart
-            stateChart.options.scales.x.ticks.color = textColor;
-            stateChart.options.scales.y.ticks.color = textColor;
-            stateChart.options.scales.x.grid.color = gridColor;
-            stateChart.options.scales.y.grid.color = gridColor;
-            stateChart.update();
+            if (window.stateChart) {
+                window.stateChart.options.scales.x.ticks.color = textColor;
+                window.stateChart.options.scales.y.ticks.color = textColor;
+                window.stateChart.options.scales.x.grid.color = gridColor;
+                window.stateChart.options.scales.y.grid.color = gridColor;
+                window.stateChart.options.plugins.legend.labels.color = textColor;
+                window.stateChart.update('none'); // Use 'none' to prevent animation
+            }
 
             // Update Addiction Type Chart
-            addictionChart.options.plugins.legend.labels.color = textColor;
-            addictionChart.update();
+            if (window.addictionChart) {
+                window.addictionChart.options.plugins.legend.labels.color = textColor;
+                window.addictionChart.update('none');
+            }
 
             // Update Monthly Admissions Chart
-            monthlyChart.options.scales.x.ticks.color = textColor;
-            monthlyChart.options.scales.y.ticks.color = textColor;
-            monthlyChart.options.scales.x.grid.color = gridColor;
-            monthlyChart.options.scales.y.grid.color = gridColor;
-            monthlyChart.update();
+            if (window.monthlyChart) {
+                window.monthlyChart.options.scales.x.ticks.color = textColor;
+                window.monthlyChart.options.scales.y.ticks.color = textColor;
+                window.monthlyChart.options.scales.x.grid.color = gridColor;
+                window.monthlyChart.options.scales.y.grid.color = gridColor;
+                window.monthlyChart.options.plugins.legend.labels.color = textColor;
+                window.monthlyChart.update('none');
+            }
         }
 
         function handleButtonClick(button, event) {

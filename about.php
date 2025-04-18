@@ -28,6 +28,7 @@ require_once 'config/db.php';
     </style>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -42,44 +43,7 @@ require_once 'config/db.php';
     </script>
 </head>
 <body class="bg-gray-50">
-<nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg shadow-sm">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <a href="index.php" class="text-2xl font-bold gradient-text">Nasha Mukti</a>
-                    </div>
-                    <div class="hidden md:block ml-10">
-                        <div class="flex items-baseline space-x-6">
-                            <a href="index.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Dashboard</a>
-                            <a href="add_center.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium">Add Center</a>
-                            <a href="add_beneficiary.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium">Add Beneficiary</a>
-                            <a href="about.php" class="text-primary border-b-2 border-primary px-3 py-2 text-sm font-medium">About</a>
-                            <a href="records.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Records</a>
-                            <a href="statistics.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Statistics</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:hidden">
-                    <button type="button" class="text-gray-600 hover:text-primary" onclick="toggleMobileMenu()">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="index.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Dashboard</a>
-                <a href="add_center.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Add Center</a>
-                <a href="add_beneficiary.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Add Beneficiary</a>
-                <a href="about.php" class="block px-3 py-2 text-base font-medium text-primary bg-gray-50 rounded-md">About</a>
-                <a href="records.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Records</a>
-                <a href="statistics.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Statistics</a>
-            </div>
-        </div>
-    </nav>
+    <?php include 'includes/header.php'; ?>
 
     <main class="pt-20">
         <!-- Hero Section -->
@@ -101,7 +65,7 @@ require_once 'config/db.php';
                     <div class="text-primary mb-4">
                         <i class="fas fa-bullseye text-3xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold mb-4">Our Mission</h2>
+                    <h2 class="text-2xl font-bold mb-4 text-black">Our Mission</h2>
                     <p class="text-gray-600 leading-relaxed">
                         To provide comprehensive support and rehabilitation services to individuals struggling with addiction, 
                         while promoting awareness and prevention in communities across India. We strive to create a society 
@@ -112,7 +76,7 @@ require_once 'config/db.php';
                     <div class="text-primary mb-4">
                         <i class="fas fa-eye text-3xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold mb-4">Our Vision</h2>
+                    <h2 class="text-2xl font-bold mb-4 text-black">Our Vision</h2>
                     <p class="text-gray-600 leading-relaxed">
                         To be the leading organization in addiction rehabilitation and recovery in India, setting standards 
                         for quality care and successful rehabilitation outcomes. We envision a future where every individual 
@@ -125,13 +89,13 @@ require_once 'config/db.php';
         <!-- Key Features -->
         <div class="bg-gray-100 py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-up">What We Offer</h2>
+                <h2 class="text-3xl font-bold text-center mb-12 text-black" data-aos="fade-up">What We Offer</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="bg-white rounded-xl shadow-md p-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="text-primary mb-4">
                             <i class="fas fa-hands-helping text-3xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">Professional Support</h3>
+                        <h3 class="text-xl font-semibold mb-2 text-black">Professional Support</h3>
                         <p class="text-gray-600">
                             Expert counselors and medical professionals providing comprehensive care and support.
                         </p>
@@ -140,7 +104,7 @@ require_once 'config/db.php';
                         <div class="text-primary mb-4">
                             <i class="fas fa-home text-3xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">Rehabilitation Centers</h3>
+                        <h3 class="text-xl font-semibold mb-2 text-black">Rehabilitation Centers</h3>
                         <p class="text-gray-600">
                             State-of-the-art facilities across India providing safe and supportive environments.
                         </p>
@@ -149,7 +113,7 @@ require_once 'config/db.php';
                         <div class="text-primary mb-4">
                             <i class="fas fa-users text-3xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">Community Support</h3>
+                        <h3 class="text-xl font-semibold mb-2 text-black">Community Support</h3>
                         <p class="text-gray-600">
                             Building strong support networks and communities for sustainable recovery.
                         </p>
@@ -161,7 +125,7 @@ require_once 'config/db.php';
         <!-- Contact Section -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold mb-4" data-aos="fade-up">Get in Touch</h2>
+                <h2 class="text-3xl font-bold mb-4 text-black" data-aos="fade-up">Get in Touch</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
                     Have questions or need support? Our team is here to help you 24/7.
                 </p>

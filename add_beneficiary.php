@@ -1,6 +1,10 @@
 <?php
 require_once 'config/db.php';
+require_once 'config/auth.php';
 require_once 'update_stats.php';
+
+// Check if user is logged in
+requireLogin();
 
 $message = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -190,150 +194,115 @@ if ($result->num_rows > 0) {
     </script>
 </head>
 <body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg shadow-sm">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <a href="index.php" class="text-2xl font-bold gradient-text">Nasha Mukti</a>
-                    </div>
-                    <div class="hidden md:block ml-10">
-                        <div class="flex items-baseline space-x-6">
-                            <a href="index.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Dashboard</a>
-                            <a href="add_center.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium">Add Center</a>
-                            <a href="add_beneficiary.php" class="text-primary border-b-2 border-primary px-3 py-2 text-sm font-medium">Add Beneficiary</a>
-                            <a href="about.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">About</a>
-                            <a href="records.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Records</a>
-                            <a href="statistics.php" class="text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary px-3 py-2 text-sm font-medium transition-all">Statistics</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:hidden">
-                    <button type="button" class="text-gray-600 hover:text-primary" onclick="toggleMobileMenu()">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Mobile menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="index.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Dashboard</a>
-                <a href="add_center.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Add Center</a>
-                <a href="add_beneficiary.php" class="block px-3 py-2 text-base font-medium text-primary bg-gray-50 rounded-md">Add Beneficiary</a>
-                <a href="about.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">About</a>
-                <a href="records.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Records</a>
-                <a href="statistics.php" class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md">Statistics</a>
-            </div>
-        </div>
-    </nav>
+    <?php include 'includes/header.php'; ?>
 
-    <div class="min-h-screen pt-20 pb-12">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-8 animate__animated animate__fadeIn">
-                <h1 class="text-3xl font-bold gradient-text inline-block mb-2">Add New Beneficiary</h1>
-                <p class="text-gray-600">Help someone start their journey to recovery</p>
-            </div>
+    <main class="pt-20">
+        <div class="min-h-screen pt-20 pb-12">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8 animate__animated animate__fadeIn">
+                    <h1 class="text-3xl font-bold gradient-text inline-block mb-2">Add New Beneficiary</h1>
+                    <p class="text-gray-600">Help someone start their journey to recovery</p>
+                </div>
 
-            <div class="bg-white rounded-2xl shadow-xl p-8 form-card animate__animated animate__fadeInUp">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="text-center md:text-left">
-                        <div class="floating-icon mb-6">
-                            <i class="fas fa-user-plus text-6xl text-primary opacity-80"></i>
-                        </div>
-                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Beneficiary Details</h2>
-                        <p class="text-gray-600 mb-4">Please fill in the details carefully. All information will be kept confidential.</p>
-                        <div class="hidden md:block">
-                            <div class="bg-blue-50 rounded-lg p-4 mt-6">
-                                <h3 class="text-primary font-medium mb-2">Why this matters?</h3>
-                                <p class="text-sm text-gray-600">Accurate information helps us provide better care and support to those in need. Your contribution makes a difference.</p>
+                <div class="bg-white rounded-2xl shadow-xl p-8 form-card animate__animated animate__fadeInUp">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="text-center md:text-left">
+                            <div class="floating-icon mb-6">
+                                <i class="fas fa-user-plus text-6xl text-primary opacity-80"></i>
+                            </div>
+                            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Beneficiary Details</h2>
+                            <p class="text-gray-600 mb-4">Please fill in the details carefully. All information will be kept confidential.</p>
+                            <div class="hidden md:block">
+                                <div class="bg-blue-50 rounded-lg p-4 mt-6">
+                                    <h3 class="text-primary font-medium mb-2">Why this matters?</h3>
+                                    <p class="text-sm text-gray-600">Accurate information helps us provide better care and support to those in need. Your contribution makes a difference.</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <form method="POST" class="space-y-6" id="beneficiaryForm">
-                        <div class="input-group">
-                            <label for="center_id">Center</label>
-                            <select name="center_id" id="center_id" class="select2" required>
-                                <option value="">Select Center</option>
-                                <?php
-                                $sql = "SELECT id, name FROM centers ORDER BY name";
-                                $result = $conn->query($sql);
-                                while($row = $result->fetch_assoc()) {
-                                    echo "<option value='".$row['id']."'>".$row['name']."</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
-
-                        <div class="input-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <form method="POST" class="space-y-6" id="beneficiaryForm">
                             <div class="input-group">
-                                <label for="age">Age</label>
-                                <input type="number" id="age" name="age" min="1" max="120" required>
+                                <label for="center_id">Center</label>
+                                <select name="center_id" id="center_id" class="select2" required>
+                                    <option value="">Select Center</option>
+                                    <?php
+                                    $sql = "SELECT id, name FROM centers ORDER BY name";
+                                    $result = $conn->query($sql);
+                                    while($row = $result->fetch_assoc()) {
+                                        echo "<option value='".$row['id']."'>".$row['name']."</option>";
+                                    }
+                                    ?>
+                                </select>
                             </div>
+
                             <div class="input-group">
-                                <label for="gender">Gender</label>
-                                <select id="gender" name="gender" required>
-                                    <option value="">Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="input-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" name="age" min="1" max="120" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="gender">Gender</label>
+                                    <select id="gender" name="gender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" name="address" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="addiction_type">Addiction Type</label>
+                                <select id="addiction_type" name="addiction_type" required onchange="toggleOtherAddiction()">
+                                    <option value="">Select Type</option>
+                                    <option value="Alcohol">Alcohol</option>
+                                    <option value="Drugs">Drugs</option>
+                                    <option value="Tobacco">Tobacco</option>
+                                    <option value="Multiple">Multiple</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-                        </div>
 
-                        <div class="input-group">
-                            <label for="address">Address</label>
-                            <input type="text" id="address" name="address" required>
-                        </div>
+                            <div id="other_addiction_group" class="input-group hidden">
+                                <label for="other_addiction">Specify Addiction Type</label>
+                                <input type="text" id="other_addiction" name="other_addiction" placeholder="Please specify the addiction type">
+                            </div>
 
-                        <div class="input-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
-                        </div>
+                            <div class="input-group">
+                                <label for="admission_date">Admission Date</label>
+                                <input type="date" id="admission_date" name="admission_date" required>
+                            </div>
 
-                        <div class="input-group">
-                            <label for="addiction_type">Addiction Type</label>
-                            <select id="addiction_type" name="addiction_type" required onchange="toggleOtherAddiction()">
-                                <option value="">Select Type</option>
-                                <option value="Alcohol">Alcohol</option>
-                                <option value="Drugs">Drugs</option>
-                                <option value="Tobacco">Tobacco</option>
-                                <option value="Multiple">Multiple</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-
-                        <div id="other_addiction_group" class="input-group hidden">
-                            <label for="other_addiction">Specify Addiction Type</label>
-                            <input type="text" id="other_addiction" name="other_addiction" placeholder="Please specify the addiction type">
-                        </div>
-
-                        <div class="input-group">
-                            <label for="admission_date">Admission Date</label>
-                            <input type="date" id="admission_date" name="admission_date" required>
-                        </div>
-
-                        <div class="flex justify-end space-x-4">
-                            <button type="button" onclick="window.location.href='index.php'" 
-                                class="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-all">
-                                Cancel
-                            </button>
-                            <button type="submit" class="submit-button px-8 py-2 bg-primary text-white rounded-full hover:bg-secondary transition-all">
-                                Add Beneficiary
-                            </button>
-                        </div>
-                    </form>
+                            <div class="flex justify-end space-x-4">
+                                <button type="button" onclick="window.location.href='index.php'" 
+                                    class="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-all">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="submit-button px-8 py-2 bg-primary text-white rounded-full hover:bg-secondary transition-all">
+                                    Add Beneficiary
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer class="bg-dark text-white py-8">
