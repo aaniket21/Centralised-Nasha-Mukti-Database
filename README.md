@@ -4,7 +4,7 @@
 
 Nasha Mukti Kendra is a comprehensive web-based management system designed to track and manage de-addiction centers and beneficiaries across India. The system provides a centralized platform for monitoring rehabilitation centers, managing beneficiary records, and generating statistical insights to support the Nasha Mukti initiative.
 
-**Live Demo:** [http://nashamukti.ct.ws/](http://nashamukti.ct.ws/)
+**Live Demo:** [https://nashamukti.ct.ws/](https://nashamukti.ct.ws/)
 
 ## Team
 
