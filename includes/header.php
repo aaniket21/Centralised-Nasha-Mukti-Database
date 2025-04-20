@@ -28,9 +28,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </div>
             </div>
             <div class="flex items-center space-x-4">
-                <button onclick="toggleTheme()" class="theme-toggle">
+                <!-- <button onclick="toggleTheme()" class="theme-toggle">
                     <i id="theme-toggle-icon" class="fas fa-moon w-6 h-6 text-gray-600 dark:text-gray-300"></i>
-                </button>
+                </button> -->
                 <?php if (isLoggedIn()): ?>
                     <span class="text-gray-600 mr-2">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
                     <a href="logout.php" class="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-red-700 transition-all shadow-lg shadow-red-500/30">
