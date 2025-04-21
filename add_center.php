@@ -55,6 +55,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        /* Dark-mode styling for inputs and selects */
+        .dark .input-group input,
+        .dark .input-group select,
+        .dark .input-group textarea {
+            background-color: #374151 !important; /* gray-700 */
+            color: #e5e7eb !important; /* gray-200 */
+            border-color: #4b5563 !important; /* gray-600 */
+        }
+        .dark .input-group label {
+            background-color: #374151;
+            color: #e5e7eb; /* gray-200 */
+            padding: 0 0.25rem;
+        }
         .form-card {
             transition: all 0.3s ease;
         }
@@ -125,6 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -138,29 +152,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
     <?php include 'includes/header.php'; ?>
 
     <main class="pt-20">
-        <div class="min-h-screen pt-20 pb-12">
+        <div class="min-h-screen pt-20 pb-12 bg-white dark:bg-gray-800 transition-colors duration-200">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-8 animate__animated animate__fadeIn">
                     <h1 class="text-3xl font-bold gradient-text inline-block mb-2">Add New Center</h1>
-                    <p class="text-gray-600">Register a new rehabilitation center to our network</p>
+                    <p class="text-gray-600 dark:text-gray-400">Register a new rehabilitation center to our network</p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-xl p-8 form-card animate__animated animate__fadeInUp">
+                <div class="bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-2xl shadow-xl p-8 form-card animate__animated animate__fadeInUp transition-colors duration-200">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="text-center md:text-left">
                             <div class="floating-icon mb-6">
                                 <i class="fas fa-hospital-alt text-6xl text-primary opacity-80"></i>
                             </div>
-                            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Center Information</h2>
-                            <p class="text-gray-600 mb-4">Add details about the rehabilitation center to help people find the right care.</p>
+                            <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Center Information</h2>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4">Add details about the rehabilitation center to help people find the right care.</p>
                             <div class="hidden md:block">
-                                <div class="bg-blue-50 rounded-lg p-4 mt-6">
+                                <div class="bg-blue-50 dark:bg-gray-700 rounded-lg p-4 mt-6">
                                     <h3 class="text-primary font-medium mb-2">Center Guidelines</h3>
-                                    <p class="text-sm text-gray-600">Ensure the center meets all regulatory requirements and has proper facilities for rehabilitation care.</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">Ensure the center meets all regulatory requirements and has proper facilities for rehabilitation care.</p>
                                 </div>
                             </div>
                         </div>
@@ -242,7 +256,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="flex justify-end space-x-4">
                                 <button type="button" onclick="window.location.href='index.php'" 
-                                    class="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-all">
+                                    class="px-6 py-2 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-400 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
                                     Cancel
                                 </button>
                                 <button type="submit" class="submit-button px-8 py-2 bg-primary text-white rounded-full hover:bg-secondary transition-all">
@@ -257,20 +271,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-8">
+    <footer class="bg-dark dark:bg-gray-900 text-white dark:text-gray-100 py-8 transition-colors duration-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Nasha Mukti</h3>
-                    <p class="text-gray-400">Comprehensive tracking and analysis of de-addiction centers across India.</p>
+                    <h3 class="text-lg font-semibold mb-4 text-white dark:text-white">Nasha Mukti</h3>
+                    <p class="text-gray-400 dark:text-gray-300">Comprehensive tracking and analysis of de-addiction centers across India.</p>
                 </div>
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-white dark:text-white">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Dashboard</a></li>
-                        <li><a href="add_center.php" class="text-gray-400 hover:text-white transition-colors">Add Center</a></li>
-                        <li><a href="add_beneficiary.php" class="text-gray-400 hover:text-white transition-colors">Add Beneficiary</a></li>
-                        <li><a href="statistics.php" class="text-gray-400 hover:text-white transition-colors">Statistics</a></li>
+                        <li><a href="#" class="text-gray-400 dark:text-gray-300 hover:text-white transition-colors">Dashboard</a></li>
+                        <li><a href="add_center.php" class="text-gray-400 dark:text-gray-300 hover:text-white transition-colors">Add Center</a></li>
+                        <li><a href="add_beneficiary.php" class="text-gray-400 dark:text-gray-300 hover:text-white transition-colors">Add Beneficiary</a></li>
+                        <li><a href="statistics.php" class="text-gray-400 dark:text-gray-300 hover:text-white transition-colors">Statistics</a></li>
                     </ul>
                 </div>
                 <!-- <div>
@@ -282,15 +296,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </ul>
                 </div> -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-white dark:text-white">Contact</h3>
                     <ul class="space-y-2">
-                        <li class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2"></i> support@nashamukti.gov.in</li>
-                        <li class="flex items-center text-gray-400"><i class="fas fa-phone mr-2"></i> 1800-123-4567</li>
-                        <li class="flex items-center text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i> New Delhi, India</li>
+                        <li class="flex items-center text-gray-400 dark:text-gray-300"><i class="fas fa-envelope mr-2"></i> support@nashamukti.gov.in</li>
+                        <li class="flex items-center text-gray-400 dark:text-gray-300"><i class="fas fa-phone mr-2"></i> 1800-123-4567</li>
+                        <li class="flex items-center text-gray-400 dark:text-gray-300"><i class="fas fa-map-marker-alt mr-2"></i> New Delhi, India</li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <div class="border-t border-gray-800 dark:border-gray-700 mt-8 pt-8 text-center text-gray-400 dark:text-gray-300">
                 <p>&copy; 2025 Nasha Mukti Kendra. All rights reserved.</p>
             </div>
         </div>
@@ -326,4 +340,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
     </script>
 </body>
-</html> 
+</html>

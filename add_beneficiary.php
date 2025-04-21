@@ -140,7 +140,7 @@ if ($result->num_rows > 0) {
         .submit-button:hover::after {
             transform: translate(-50%, -50%) scale(2);
         }
-        .select2-container {
+        /* .select2-container {
             width: 100% !important;
         }
         .select2-container .select2-selection--single {
@@ -161,7 +161,7 @@ if ($result->num_rows > 0) {
             border: 2px solid #e5e7eb !important;
             border-radius: 0.5rem !important;
             margin-top: 4px;
-        }
+        } */
         .hidden {
             display: none;
         }
@@ -173,13 +173,31 @@ if ($result->num_rows > 0) {
         .floating-icon {
             animation: float 3s ease-in-out infinite;
         }
-        .dark {
-            background-color: #111827;
-            color: #fff;
+        
+        /* Custom dark mode styling for inputs and selects */
+        .dark .input-group input,
+        .dark .input-group select {
+            background-color: #374151 !important; /* gray-700 */
+            color: #fff !important;
+            border-color: #4b5563 !important; /* gray-600 */
+        }
+        .dark .input-group label {
+            background-color: #374151;
+            color: #d1d5db; /* gray-300 */
+            padding: 0 0.25rem;
+        }
+        .dark .select2-container--default .select2-selection--single {
+            background-color: #374151 !important;
+            color: #fff !important;
+            border-color: #4b5563 !important;
+        }
+        .dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #fff !important;
         }
     </style>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -193,29 +211,29 @@ if ($result->num_rows > 0) {
         }
     </script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
     <?php include 'includes/header.php'; ?>
 
     <main class="pt-20">
-        <div class="min-h-screen pt-20 pb-12">
+        <div class="min-h-screen pt-20 pb-12 bg-white dark:bg-gray-800 transition-colors duration-200">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-8 animate__animated animate__fadeIn">
                     <h1 class="text-3xl font-bold gradient-text inline-block mb-2">Add New Beneficiary</h1>
-                    <p class="text-gray-600">Help someone start their journey to recovery</p>
+                    <p class="text-gray-600 dark:text-gray-400">Help someone start their journey to recovery</p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-xl p-8 form-card animate__animated animate__fadeInUp">
+                <div class="bg-white dark:bg-gray-700 dark:text-gray-100 rounded-2xl shadow-xl p-8 form-card animate__animated animate__fadeInUp">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="text-center md:text-left">
                             <div class="floating-icon mb-6">
                                 <i class="fas fa-user-plus text-6xl text-primary opacity-80"></i>
                             </div>
-                            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Beneficiary Details</h2>
-                            <p class="text-gray-600 mb-4">Please fill in the details carefully. All information will be kept confidential.</p>
+                            <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Beneficiary Details</h2>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">Please fill in the details carefully. All information will be kept confidential.</p>
                             <div class="hidden md:block">
-                                <div class="bg-blue-50 rounded-lg p-4 mt-6">
+                                <div class="bg-blue-50 dark:bg-gray-800 rounded-lg p-4 mt-6">
                                     <h3 class="text-primary font-medium mb-2">Why this matters?</h3>
-                                    <p class="text-sm text-gray-600">Accurate information helps us provide better care and support to those in need. Your contribution makes a difference.</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Accurate information helps us provide better care and support to those in need. Your contribution makes a difference.</p>
                                 </div>
                             </div>
                         </div>
@@ -223,7 +241,7 @@ if ($result->num_rows > 0) {
                         <form method="POST" class="space-y-6" id="beneficiaryForm">
                             <div class="input-group">
                                 <label for="center_id">Center</label>
-                                <select name="center_id" id="center_id" class="select2" required>
+                                <select name="center_id" id="center_id" class="" required>
                                     <option value="">Select Center</option>
                                     <?php
                                     $sql = "SELECT id, name FROM centers ORDER BY name";
@@ -290,10 +308,10 @@ if ($result->num_rows > 0) {
 
                             <div class="flex justify-end space-x-4">
                                 <button type="button" onclick="window.location.href='index.php'" 
-                                    class="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-all">
+                                    class="px-6 py-2 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-400 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
                                     Cancel
                                 </button>
-                                <button type="submit" class="submit-button px-8 py-2 bg-primary text-white rounded-full hover:bg-secondary transition-all">
+                                <button type="submit" class="submit-button px-8 py-2 bg-primary dark:bg-primary text-white rounded-full hover:bg-secondary dark:hover:bg-secondary transition-all">
                                     Add Beneficiary
                                 </button>
                             </div>
@@ -305,20 +323,20 @@ if ($result->num_rows > 0) {
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-8">
+    <footer class="bg-dark dark:bg-gray-900 text-white dark:text-gray-100 py-8 transition-colors duration-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Nasha Mukti</h3>
-                    <p class="text-gray-400">Comprehensive tracking and analysis of de-addiction centers across India.</p>
+                    <p class="text-gray-400 dark:text-gray-400">Comprehensive tracking and analysis of de-addiction centers across India.</p>
                 </div>
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Dashboard</a></li>
-                        <li><a href="add_center.php" class="text-gray-400 hover:text-white transition-colors">Add Center</a></li>
-                        <li><a href="add_beneficiary.php" class="text-gray-400 hover:text-white transition-colors">Add Beneficiary</a></li>
-                        <li><a href="statistics.php" class="text-gray-400 hover:text-white transition-colors">Statistics</a></li>
+                        <li><a href="#" class="text-gray-400 dark:text-gray-400 hover:text-white dark:hover:text-white transition-colors">Dashboard</a></li>
+                        <li><a href="add_center.php" class="text-gray-400 dark:text-gray-400 hover:text-white dark:hover:text-white transition-colors">Add Center</a></li>
+                        <li><a href="add_beneficiary.php" class="text-gray-400 dark:text-gray-400 hover:text-white dark:hover:text-white transition-colors">Add Beneficiary</a></li>
+                        <li><a href="statistics.php" class="text-gray-400 dark:text-gray-400 hover:text-white dark:hover:text-white transition-colors">Statistics</a></li>
                     </ul>
                 </div>
                 <!-- <div>
@@ -332,13 +350,13 @@ if ($result->num_rows > 0) {
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Contact</h3>
                     <ul class="space-y-2">
-                        <li class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2"></i> support@nashamukti.gov.in</li>
-                        <li class="flex items-center text-gray-400"><i class="fas fa-phone mr-2"></i> 1800-123-4567</li>
-                        <li class="flex items-center text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i> New Delhi, India</li>
+                        <li class="flex items-center text-gray-400 dark:text-gray-400"><i class="fas fa-envelope mr-2"></i> support@nashamukti.gov.in</li>
+                        <li class="flex items-center text-gray-400 dark:text-gray-400"><i class="fas fa-phone mr-2"></i> 1800-123-4567</li>
+                        <li class="flex items-center text-gray-400 dark:text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i> New Delhi, India</li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <div class="border-t border-gray-800 dark:border-gray-700 mt-8 pt-8 text-center text-gray-400 dark:text-gray-400">
                 <p>&copy; 2025 Nasha Mukti Kendra. All rights reserved.</p>
             </div>
         </div>
@@ -423,4 +441,4 @@ if ($result->num_rows > 0) {
         <?php endif; ?>
     </script>
 </body>
-</html> 
+</html>

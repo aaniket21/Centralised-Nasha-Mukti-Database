@@ -742,7 +742,7 @@ $recent_admissions = $conn->query($sql);
                         legend: {
                             display: false,
                             labels: {
-                                color: getThemeColor('text')
+                                color: '#3b82f6'
                             }
                         }
                     },
@@ -750,18 +750,18 @@ $recent_admissions = $conn->query($sql);
                         y: {
                             beginAtZero: true,
                             grid: {
-                                color: getThemeColor('grid')
+                                color: 'rgba(120,120,120,0.15)'
                             },
                             ticks: {
-                                color: getThemeColor('text')
+                                color: '#3b82f6'
                             }
                         },
                         x: {
                             grid: {
-                                color: getThemeColor('grid')
+                                color: 'rgba(120,120,120,0.15)'
                             },
                             ticks: {
-                                color: getThemeColor('text')
+                                color: '#3b82f6'
                             }
                         }
                     }
@@ -799,7 +799,7 @@ $recent_admissions = $conn->query($sql);
                         legend: {
                             position: 'right',
                             labels: {
-                                color: getThemeColor('text')
+                                color: '#3b82f6'
                             }
                         }
                     }
@@ -833,7 +833,7 @@ $recent_admissions = $conn->query($sql);
                         legend: {
                             display: false,
                             labels: {
-                                color: getThemeColor('text')
+                                color: '#3b82f6'
                             }
                         }
                     },
@@ -841,18 +841,18 @@ $recent_admissions = $conn->query($sql);
                         y: {
                             beginAtZero: false,
                             grid: {
-                                color: getThemeColor('grid')
+                                color: 'rgba(120,120,120,0.15)'
                             },
                             ticks: {
-                                color: getThemeColor('text')
+                                color: '#3b82f6'
                             }
                         },
                         x: {
                             grid: {
-                                color: getThemeColor('grid')
+                                color: 'rgba(120,120,120,0.15)'
                             },
                             ticks: {
-                                color: getThemeColor('text')
+                                color: '#3b82f6'
                             }
                         }
                     }
@@ -929,4 +929,4 @@ $recent_admissions = $conn->query($sql);
         }
     </script>
 </body>
-</html> 
+</html>

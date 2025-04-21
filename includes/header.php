@@ -5,34 +5,34 @@ require_once __DIR__ . '/../config/auth.php';
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!-- Navigation -->
-<nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg shadow-sm">
+<nav class="fixed w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-sm transition-colors">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <a href="index.php" class="text-2xl font-bold gradient-text">Nasha Mukti</a>
+                    <a href="index.php" class="text-2xl font-bold gradient-text dark:text-white">Nasha Mukti</a>
                 </div>
                 <div class="hidden md:block ml-10">
                     <div class="flex items-baseline space-x-6">
-                        <a href="index.php" class="<?php echo $current_page == 'index.php' ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary'; ?> px-3 py-2 text-sm font-medium transition-all">Dashboard</a>
+                        <a href="index.php" class="<?php echo $current_page == 'index.php' ? 'text-primary dark:text-blue-400 border-b-2 border-primary dark:border-blue-400' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:border-b-2 hover:border-primary dark:hover:border-blue-400'; ?> px-3 py-2 text-sm font-medium transition-all">Dashboard</a>
                         <?php if (isLoggedIn()): ?>
-                            <a href="add_beneficiary.php" class="<?php echo $current_page == 'add_beneficiary.php' ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary'; ?> px-3 py-2 text-sm font-medium transition-all">Add Beneficiary</a>
+                            <a href="add_beneficiary.php" class="<?php echo $current_page == 'add_beneficiary.php' ? 'text-primary dark:text-blue-400 border-b-2 border-primary dark:border-blue-400' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:border-b-2 hover:border-primary dark:hover:border-blue-400'; ?> px-3 py-2 text-sm font-medium transition-all">Add Beneficiary</a>
                             <?php if (isAdmin()): ?>
-                                <a href="add_center.php" class="<?php echo $current_page == 'add_center.php' ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary'; ?> px-3 py-2 text-sm font-medium transition-all">Add Center</a>
-                                <a href="records.php" class="<?php echo $current_page == 'records.php' ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary'; ?> px-3 py-2 text-sm font-medium transition-all">Records</a>
+                                <a href="add_center.php" class="<?php echo $current_page == 'add_center.php' ? 'text-primary dark:text-blue-400 border-b-2 border-primary dark:border-blue-400' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:border-b-2 hover:border-primary dark:hover:border-blue-400'; ?> px-3 py-2 text-sm font-medium transition-all">Add Center</a>
+                                <a href="records.php" class="<?php echo $current_page == 'records.php' ? 'text-primary dark:text-blue-400 border-b-2 border-primary dark:border-blue-400' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:border-b-2 hover:border-primary dark:hover:border-blue-400'; ?> px-3 py-2 text-sm font-medium transition-all">Records</a>
                             <?php endif; ?>
                         <?php endif; ?>
-                        <a href="about.php" class="<?php echo $current_page == 'about.php' ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary'; ?> px-3 py-2 text-sm font-medium transition-all">About</a>
-                        <a href="statistics.php" class="<?php echo $current_page == 'statistics.php' ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary hover:border-b-2 hover:border-primary'; ?> px-3 py-2 text-sm font-medium transition-all">Statistics</a>
+                        <a href="about.php" class="<?php echo $current_page == 'about.php' ? 'text-primary dark:text-blue-400 border-b-2 border-primary dark:border-blue-400' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:border-b-2 hover:border-primary dark:hover:border-blue-400'; ?> px-3 py-2 text-sm font-medium transition-all">About</a>
+                        <a href="statistics.php" class="<?php echo $current_page == 'statistics.php' ? 'text-primary dark:text-blue-400 border-b-2 border-primary dark:border-blue-400' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:border-b-2 hover:border-primary dark:hover:border-blue-400'; ?> px-3 py-2 text-sm font-medium transition-all">Statistics</a>
                     </div>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
-                <!-- <button onclick="toggleTheme()" class="theme-toggle">
+                <button onclick="toggleTheme()" class="theme-toggle">
                     <i id="theme-toggle-icon" class="fas fa-moon w-6 h-6 text-gray-600 dark:text-gray-300"></i>
-                </button> -->
+                </button>
                 <?php if (isLoggedIn()): ?>
-                    <span class="text-gray-600 mr-2">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                    <span class="text-gray-600 dark:text-gray-200 mr-2">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
                     <a href="logout.php" class="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-red-700 transition-all shadow-lg shadow-red-500/30">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
@@ -45,7 +45,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     </a>
                 <?php endif; ?>
                 <div class="md:hidden">
-                    <button type="button" class="text-gray-600 hover:text-primary" onclick="toggleMobileMenu()">
+                    <button type="button" class="text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400" onclick="toggleMobileMenu()">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
@@ -54,27 +54,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </div>
 
     <!-- Mobile menu -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+    <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-gray-900 border-t dark:border-gray-700 transition-colors">
         <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="index.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'index.php' ? 'text-primary bg-blue-50' : 'text-gray-600 hover:text-primary hover:bg-gray-50'; ?> rounded-md">Dashboard</a>
+            <a href="index.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'index.php' ? 'text-primary dark:text-blue-400 bg-blue-50 dark:bg-gray-800' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'; ?> rounded-md">Dashboard</a>
             <?php if (isLoggedIn()): ?>
-                <a href="add_center.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'add_center.php' ? 'text-primary bg-blue-50' : 'text-gray-600 hover:text-primary hover:bg-gray-50'; ?> rounded-md">Add Center</a>
-                <a href="add_beneficiary.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'add_beneficiary.php' ? 'text-primary bg-blue-50' : 'text-gray-600 hover:text-primary hover:bg-gray-50'; ?> rounded-md">Add Beneficiary</a>
+                <a href="add_center.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'add_center.php' ? 'text-primary dark:text-blue-400 bg-blue-50 dark:bg-gray-800' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'; ?> rounded-md">Add Center</a>
+                <a href="add_beneficiary.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'add_beneficiary.php' ? 'text-primary dark:text-blue-400 bg-blue-50 dark:bg-gray-800' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'; ?> rounded-md">Add Beneficiary</a>
                 <?php if (isAdmin()): ?>
-                    <a href="records.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'records.php' ? 'text-primary bg-blue-50' : 'text-gray-600 hover:text-primary hover:bg-gray-50'; ?> rounded-md">Records</a>
+                    <a href="records.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'records.php' ? 'text-primary dark:text-blue-400 bg-blue-50 dark:bg-gray-800' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'; ?> rounded-md">Records</a>
                 <?php endif; ?>
             <?php endif; ?>
-            <a href="about.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'about.php' ? 'text-primary bg-blue-50' : 'text-gray-600 hover:text-primary hover:bg-gray-50'; ?> rounded-md">About</a>
-            <a href="statistics.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'statistics.php' ? 'text-primary bg-blue-50' : 'text-gray-600 hover:text-primary hover:bg-gray-50'; ?> rounded-md">Statistics</a>
+            <a href="about.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'about.php' ? 'text-primary dark:text-blue-400 bg-blue-50 dark:bg-gray-800' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'; ?> rounded-md">About</a>
+            <a href="statistics.php" class="block px-3 py-2 text-base font-medium <?php echo $current_page == 'statistics.php' ? 'text-primary dark:text-blue-400 bg-blue-50 dark:bg-gray-800' : 'text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'; ?> rounded-md">Statistics</a>
             <?php if (isLoggedIn()): ?>
-                <a href="logout.php" class="block px-3 py-2 text-base font-medium text-red-600 hover:text-red-700 hover:bg-gray-50 rounded-md">
+                <a href="logout.php" class="block px-3 py-2 text-base font-medium text-red-600 hover:text-red-700 hover:bg-gray-50 dark:text-red-400 dark:hover:text-red-200 dark:hover:bg-gray-800 rounded-md">
                     <i class="fas fa-sign-out-alt mr-2"></i>Logout
                 </a>
             <?php else: ?>
-                <a href="login.php" class="block px-3 py-2 text-base font-medium text-blue-600 hover:text-blue-700 hover:bg-gray-50 rounded-md">
+                <a href="login.php" class="block px-3 py-2 text-base font-medium text-blue-600 hover:text-blue-700 hover:bg-gray-50 dark:text-blue-400 dark:hover:text-blue-200 dark:hover:bg-gray-800 rounded-md">
                     <i class="fas fa-sign-in-alt mr-2"></i>Login
                 </a>
-                <a href="register.php" class="block px-3 py-2 text-base font-medium text-green-600 hover:text-green-700 hover:bg-gray-50 rounded-md">
+                <a href="register.php" class="block px-3 py-2 text-base font-medium text-green-600 hover:text-green-700 hover:bg-gray-50 dark:text-green-400 dark:hover:text-green-200 dark:hover:bg-gray-800 rounded-md">
                     <i class="fas fa-user-plus mr-2"></i>Register
                 </a>
             <?php endif; ?>
@@ -113,8 +113,11 @@ function toggleTheme() {
         document.getElementById('theme-toggle-icon').classList.remove('fa-moon');
         document.getElementById('theme-toggle-icon').classList.add('fa-sun');
     }
+    // Update charts if present
+    if (typeof window.updateChartsForTheme === 'function') {
+        window.updateChartsForTheme();
+    }
 }
 
-// Initialize theme on page load
 document.addEventListener('DOMContentLoaded', initTheme);
-</script> 
+</script>

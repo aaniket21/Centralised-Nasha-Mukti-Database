@@ -115,7 +115,7 @@ while($row = $result->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics Dashboard - Nasha Mukti</title>
+    <title>Statistics - Nasha Mukti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -129,13 +129,10 @@ while($row = $result->fetch_assoc()) {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .dark {
-            background-color: #111827;
-            color: #fff;
-        }
     </style>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -149,45 +146,43 @@ while($row = $result->fetch_assoc()) {
         }
     </script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
     <?php include 'includes/header.php'; ?>
 
     <main class="pt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-8">Statistics Dashboard</h1>
-            
-            <!-- Summary Cards -->
+            <!-- Overview Stats -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-blue-100 text-primary">
-                            <i class="fas fa-hospital text-2xl"></i>
+                        <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
+                            <i class="fas fa-hospital text-blue-600 dark:text-blue-200 text-xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-gray-500">Total Centers</p>
-                            <h3 class="text-2xl font-bold text-gray-800"><?php echo $total_centers; ?></h3>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Total Centers</h3>
+                            <p class="text-3xl font-bold text-primary"><?php echo $total_centers; ?></p>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-green-100 text-green-600">
-                            <i class="fas fa-users text-2xl"></i>
+                        <div class="p-3 rounded-full bg-green-100 dark:bg-green-900">
+                            <i class="fas fa-users text-green-600 dark:text-green-200 text-xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-gray-500">Total Beneficiaries</p>
-                            <h3 class="text-2xl font-bold text-gray-800"><?php echo $total_beneficiaries; ?></h3>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Total Beneficiaries</h3>
+                            <p class="text-3xl font-bold text-green-600"><?php echo $total_beneficiaries; ?></p>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-purple-100 text-purple-600">
-                            <i class="fas fa-user-check text-2xl"></i>
+                        <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900">
+                            <i class="fas fa-user-check text-yellow-600 dark:text-yellow-200 text-xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-gray-500">Active Cases</p>
-                            <h3 class="text-2xl font-bold text-gray-800"><?php echo $active_beneficiaries; ?></h3>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Active Cases</h3>
+                            <p class="text-3xl font-bold text-yellow-600"><?php echo $active_beneficiaries; ?></p>
                         </div>
                     </div>
                 </div>
@@ -195,240 +190,330 @@ while($row = $result->fetch_assoc()) {
 
             <!-- Charts Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Changed: Intervention Types Distribution (was Monthly Trends) -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-semibold mb-4">Intervention Types Distribution</h3>
-                    <canvas id="interventionTypeChart"></canvas>
-                </div>
-
-                <!-- Addiction Types -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-semibold mb-4">Addiction Types Distribution</h3>
-                    <canvas id="addictionChart"></canvas>
-                </div>
-
                 <!-- State Distribution -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-semibold mb-4">State-wise Center Distribution</h3>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">State-wise Distribution</h3>
                     <canvas id="stateChart"></canvas>
                 </div>
 
+                <!-- Addiction Types -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Addiction Types</h3>
+                    <canvas id="addictionChart"></canvas>
+                </div>
+
+                <!-- Intervention Types -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Intervention Types</h3>
+                    <canvas id="interventionChart"></canvas>
+                </div>
+
                 <!-- Gender Distribution -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-semibold mb-4">Gender Distribution</h3>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Gender Distribution</h3>
                     <canvas id="genderChart"></canvas>
                 </div>
 
                 <!-- Age Distribution -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-semibold mb-4">Age Group Distribution</h3>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Age Distribution</h3>
                     <canvas id="ageChart"></canvas>
                 </div>
 
                 <!-- Center Capacity -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-semibold mb-4">Center Capacity Utilization</h3>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Center Capacity Utilization</h3>
                     <canvas id="capacityChart"></canvas>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-8">
+    <footer class="bg-dark dark:bg-gray-900 text-white py-8 transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Nasha Mukti</h3>
-                    <p class="text-gray-400">Comprehensive tracking and analysis of de-addiction centers across India.</p>
+                    <h3 class="text-lg font-semibold mb-4 text-white dark:text-white">Nasha Mukti</h3>
+                    <p class="text-gray-400 dark:text-gray-300">Comprehensive tracking and analysis of de-addiction centers across India.</p>
                 </div>
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-white dark:text-white">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Dashboard</a></li>
-                        <li><a href="add_center.php" class="text-gray-400 hover:text-white transition-colors">Add Center</a></li>
-                        <li><a href="add_beneficiary.php" class="text-gray-400 hover:text-white transition-colors">Add Beneficiary</a></li>
-                        <li><a href="statistics.php" class="text-gray-400 hover:text-white transition-colors">Statistics</a></li>
+                        <li><a href="#" class="text-gray-400 dark:text-gray-300 hover:text-white transition-colors">Dashboard</a></li>
+                        <li><a href="add_center.php" class="text-gray-400 dark:text-gray-300 hover:text-white transition-colors">Add Center</a></li>
+                        <li><a href="add_beneficiary.php" class="text-gray-400 dark:text-gray-300 hover:text-white transition-colors">Add Beneficiary</a></li>
+                        <li><a href="statistics.php" class="text-gray-400 dark:text-gray-300 hover:text-white transition-colors">Statistics</a></li>
                     </ul>
                 </div>
-                <!-- <div>
-                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-                    </ul>
-                </div> -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-white dark:text-white">Contact</h3>
                     <ul class="space-y-2">
-                        <li class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2"></i> support@nashamukti.gov.in</li>
-                        <li class="flex items-center text-gray-400"><i class="fas fa-phone mr-2"></i> 1800-123-4567</li>
-                        <li class="flex items-center text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i> New Delhi, India</li>
+                        <li class="flex items-center text-gray-400 dark:text-gray-300"><i class="fas fa-envelope mr-2"></i> support@nashamukti.gov.in</li>
+                        <li class="flex items-center text-gray-400 dark:text-gray-300"><i class="fas fa-phone mr-2"></i> 1800-123-4567</li>
+                        <li class="flex items-center text-gray-400 dark:text-gray-300"><i class="fas fa-map-marker-alt mr-2"></i> New Delhi, India</li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <div class="border-t border-gray-800 dark:border-gray-700 mt-8 pt-8 text-center text-gray-400 dark:text-gray-300">
                 <p>&copy; 2025 Nasha Mukti Kendra. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
+        // Store chart instances
+        const charts = [];
+
+        // Get theme colors based on current mode
+        function getThemeColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            return {
+                text: isDark ? '#fff' : '#111827',
+                grid: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                background: isDark ? '#1f2937' : '#ffffff'
+            };
+        }
+
+        // Chart.js global defaults for dark mode
+        function updateChartsForTheme() {
+            const colors = getThemeColors();
+            charts.forEach(chart => {
+                // Update axes
+                if (chart.options.scales) {
+                    Object.values(chart.options.scales).forEach(scale => {
+                        scale.grid = scale.grid || {};
+                        scale.grid.color = colors.grid;
+                        scale.ticks = scale.ticks || {};
+                        scale.ticks.color = colors.text;
+                    });
+                }
+                // Update legend
+                if (chart.options.plugins && chart.options.plugins.legend) {
+                    chart.options.plugins.legend.labels = chart.options.plugins.legend.labels || {};
+                    chart.options.plugins.legend.labels.color = colors.text;
+                }
+                // Update title
+                if (chart.options.plugins && chart.options.plugins.title) {
+                    chart.options.plugins.title.color = colors.text;
+                }
+                chart.update();
+            });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize theme
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            // State Distribution Chart
+            charts.push(new Chart(document.getElementById('stateChart'), {
+                type: 'bar',
+                data: {
+                    labels: <?php echo json_encode($state_labels); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode($state_counts); ?>,
+                        backgroundColor: '#3b82f6', 
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                            labels: { color: '#3b82f6' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(120,120,120,0.15)' },
+                            ticks: { color: '#3b82f6' }
+                        },
+                        x: {
+                            grid: { color: 'rgba(120,120,120,0.15)' },
+                            ticks: { color: '#3b82f6' }
+                        }
+                    }
+                }
+            }));
+
             // Addiction Types Chart
-            const addictionCtx = document.getElementById('addictionChart').getContext('2d');
-            new Chart(addictionCtx, {
+            charts.push(new Chart(document.getElementById('addictionChart'), {
                 type: 'doughnut',
                 data: {
                     labels: <?php echo json_encode($addiction_labels); ?>,
                     datasets: [{
                         data: <?php echo json_encode($addiction_counts); ?>,
-                        backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444']
+                        backgroundColor: [
+                            '#3b82f6', 
+                            '#22c55e', 
+                            '#f59e42', 
+                            '#ef4444', 
+                            '#a855f7', 
+                            '#eab308'  
+                        ]
                     }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'right'
+                            position: 'bottom',
+                            labels: { color: '#3b82f6' }
                         }
                     }
                 }
-            });
+            }));
 
-            // Intervention Types Chart (Doughnut)
-            const interventionTypeCtx = document.getElementById('interventionTypeChart').getContext('2d');
-            new Chart(interventionTypeCtx, {
-                type: 'doughnut',
+            // Intervention Types Chart
+            charts.push(new Chart(document.getElementById('interventionChart'), {
+                type: 'pie',
                 data: {
                     labels: <?php echo json_encode($intervention_type_labels); ?>,
                     datasets: [{
                         data: <?php echo json_encode($intervention_type_counts); ?>,
-                        backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#64748b'] // Add more colors if needed
+                        backgroundColor: [
+                            '#3b82f6', 
+                            '#22c55e', 
+                            '#f59e42', 
+                            '#ef4444', 
+                            '#a855f7', 
+                            '#eab308'  
+                        ]
                     }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'right'
+                            position: 'bottom',
+                            labels: { color: '#3b82f6' }
                         }
                     }
                 }
-            });
-
-            // State Distribution Chart
-            new Chart(document.getElementById('stateChart'), {
-                type: 'bar',
-                data: {
-                    labels: <?php echo json_encode($state_labels); ?>,
-                    datasets: [{
-                        label: 'Number of Centers',
-                        data: <?php echo json_encode($state_counts); ?>,
-                        backgroundColor: '#3b82f6'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0
-                            }
-                        }
-                    }
-                }
-            });
+            }));
 
             // Gender Distribution Chart
-            new Chart(document.getElementById('genderChart'), {
+            charts.push(new Chart(document.getElementById('genderChart'), {
                 type: 'pie',
                 data: {
                     labels: <?php echo json_encode($gender_labels); ?>,
                     datasets: [{
                         data: <?php echo json_encode($gender_counts); ?>,
-                        backgroundColor: ['#3b82f6', '#f472b6', '#8b5cf6']
+                        backgroundColor: [
+                            '#3b82f6', 
+                            '#ef4444', 
+                            '#22c55e', 
+                            '#f59e42', 
+                        ]
                     }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'right'
+                            position: 'bottom',
+                            labels: { color: '#3b82f6' }
                         }
                     }
                 }
-            });
+            }));
 
             // Age Distribution Chart
-            new Chart(document.getElementById('ageChart'), {
+            charts.push(new Chart(document.getElementById('ageChart'), {
                 type: 'bar',
                 data: {
                     labels: <?php echo json_encode($age_labels); ?>,
                     datasets: [{
-                        label: 'Number of Beneficiaries',
                         data: <?php echo json_encode($age_counts); ?>,
-                        backgroundColor: '#10b981'
+                        backgroundColor: '#f59e42', 
+                        borderWidth: 0
                     }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
                         legend: {
-                            display: false
+                            display: false,
+                            labels: { color: '#3b82f6' }
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: {
-                                precision: 0
-                            }
+                            grid: { color: 'rgba(120,120,120,0.15)' },
+                            ticks: { color: '#3b82f6' }
+                        },
+                        x: {
+                            grid: { color: 'rgba(120,120,120,0.15)' },
+                            ticks: { color: '#3b82f6' }
                         }
                     }
                 }
-            });
+            }));
 
             // Center Capacity Chart
-            new Chart(document.getElementById('capacityChart'), {
+            charts.push(new Chart(document.getElementById('capacityChart'), {
                 type: 'bar',
                 data: {
                     labels: <?php echo json_encode($center_labels); ?>,
-                    datasets: [{
-                        label: 'Capacity',
-                        data: <?php echo json_encode($center_capacity); ?>,
-                        backgroundColor: '#3b82f6'
-                    }, {
-                        label: 'Current Occupancy',
-                        data: <?php echo json_encode($center_occupancy); ?>,
-                        backgroundColor: '#10b981'
-                    }]
+                    datasets: [
+                        {
+                            label: 'Current Occupancy',
+                            data: <?php echo json_encode($center_occupancy); ?>,
+                            backgroundColor: '#3b82f6', 
+                            borderWidth: 0
+                        },
+                        {
+                            label: 'Total Capacity',
+                            data: <?php echo json_encode($center_capacity); ?>,
+                            backgroundColor: '#22c55e', 
+                            borderWidth: 0
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#3b82f6' }
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: {
-                                precision: 0
-                            }
+                            stacked: false,
+                            grid: { color: 'rgba(120,120,120,0.15)' },
+                            ticks: { color: '#3b82f6' }
+                        },
+                        x: {
+                            stacked: false,
+                            grid: { color: 'rgba(120,120,120,0.15)' },
+                            ticks: { color: '#3b82f6' }
                         }
                     }
                 }
-            });
+            }));
+
+            // Initial update for theme
+            updateChartsForTheme();
+        });
+
+        // Listen for theme changes
+        const observer = new MutationObserver(updateChartsForTheme);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
         });
     </script>
+    <script>
+        // Expose chart update for theme globally
+        window.updateChartsForTheme = updateChartsForTheme;
+    </script>
 </body>
-</html> 
+</html>
