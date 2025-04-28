@@ -17,33 +17,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
-    if ($username && $email && $password && $confirm_password) {
-        if ($password !== $confirm_password) {
-            $error = 'Passwords do not match';
-        } else {
-            // Check if username or email already exists
-            $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
-            $stmt->bind_param("ss", $username, $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
+    // Validate fields
+    if (!$username || !$email || !$password || !$confirm_password) {
+        $error = 'Please fill in all fields';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // Email validation
+        $error = 'Invalid email format';
+    } elseif (strlen($password) < 6) {
+        // Password length validation
+        $error = 'Password must be at least 6 characters long';
+    } elseif ($password !== $confirm_password) {
+        $error = 'Passwords do not match';
+    } else {
+        // Check if username or email already exists
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+        $stmt->bind_param("ss", $username, $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-            if ($result->num_rows > 0) {
-                $error = 'Username or email already exists';
+        if ($result->num_rows > 0) {
+            $error = 'Username or email already exists';
+        } else {
+            // Create new user
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $conn->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'client')");
+            $stmt->bind_param("sss", $username, $email, $hashed_password);
+
+            if ($stmt->execute()) {
+                $success = 'Registration successful! You can now login.';
             } else {
-                // Create new user
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $conn->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'client')");
-                $stmt->bind_param("sss", $username, $email, $hashed_password);
-                
-                if ($stmt->execute()) {
-                    $success = 'Registration successful! You can now login.';
-                } else {
-                    $error = 'Registration failed. Please try again.';
-                }
+                $error = 'Registration failed. Please try again.';
             }
         }
-    } else {
-        $error = 'Please fill in all fields';
     }
 }
 ?>

@@ -140,28 +140,7 @@ if ($result->num_rows > 0) {
         .submit-button:hover::after {
             transform: translate(-50%, -50%) scale(2);
         }
-        /* .select2-container {
-            width: 100% !important;
-        }
-        .select2-container .select2-selection--single {
-            height: 45px !important;
-            padding: 0.5rem !important;
-            border: 2px solid #e5e7eb !important;
-            border-radius: 0.5rem !important;
-            background-color: white !important;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 24px !important;
-            padding-left: 0 !important;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 43px !important;
-        }
-        .select2-dropdown {
-            border: 2px solid #e5e7eb !important;
-            border-radius: 0.5rem !important;
-            margin-top: 4px;
-        } */
+        
         .hidden {
             display: none;
         }
