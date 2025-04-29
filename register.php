@@ -283,21 +283,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Password strength checker
         function checkPasswordStrength(password) {
             let strength = 0;
-            
-            // Length check
             if (password.length >= 8) strength++;
             if (password.length >= 12) strength++;
-            
-            // Complexity checks
             if (password.match(/[a-z]/)) strength++;
             if (password.match(/[A-Z]/)) strength++;
             if (password.match(/[0-9]/)) strength++;
             if (password.match(/[^a-zA-Z0-9]/)) strength++;
-            
-            // Cap at 4 for our UI
             strength = Math.min(4, Math.floor(strength/2));
-            
-            // Update UI
             const strengthTexts = ['Very Weak', 'Weak', 'Moderate', 'Strong', 'Very Strong'];
             const strengthColors = ['text-red-500', 'text-orange-500', 'text-yellow-500', 'text-blue-500', 'text-green-500'];
             

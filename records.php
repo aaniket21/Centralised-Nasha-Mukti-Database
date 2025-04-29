@@ -110,7 +110,7 @@ $result = $conn->query($query);
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search</label>
                         <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" 
-                               class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-blue-500 focus:ring-blue-500">
+                               class="w-full rounded-lg border dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-blue-500 focus:ring-blue-500">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">State</label>
@@ -130,7 +130,7 @@ $result = $conn->query($query);
                             <option value="">All Status</option>
                             <option value="Active" <?php echo $status_filter === 'Active' ? 'selected' : ''; ?>>Active</option>
                             <option value="Recovered" <?php echo $status_filter === 'Recovered' ? 'selected' : ''; ?>>Recovered</option>
-                            <option value="Discontinued" <?php echo $status_filter === 'Discontinued' ? 'selected' : ''; ?>>Discontinued</option>
+                            <option value="Discharged" <?php echo $status_filter === 'Discharged' ? 'selected' : ''; ?>>Discharged</option>
                         </select>
                     </div>
                     <div>
@@ -210,8 +210,8 @@ $result = $conn->query($query);
                                     <?php echo date('d M Y', strtotime($row['admission_date'])); ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="#" class="text-blue-600 dark:text-blue-200 hover:text-blue-900 transition-colors">View</a>
-                                    <a href="#" class="text-green-600 dark:text-green-200 hover:text-green-900 transition-colors">Edit</a>
+                                    <a href="view_record.php?id=<?php echo $row['id']; ?>" class="text-blue-600 dark:text-blue-200 hover:text-blue-900 transition-colors">View</a>
+                                    <a href="edit_record.php?id=<?php echo $row['id']; ?>" class="text-green-600 dark:text-green-200 hover:text-green-900 transition-colors">Edit</a>
                                 </td>
                             </tr>
                             <?php endwhile; ?>
